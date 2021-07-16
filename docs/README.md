@@ -22,7 +22,7 @@ Fookie JS is a lifecycle-based web application development method. It does most 
 -  Request Life Cycle
 -  Everything is a plugin.
 -  Routines (SetInterval)
--  Deafult models, rules, roles, filters, effects, modifies and methods.
+-  Deafult models, store.rule, roles, store.filter, store.effect, store.modify and methods.
 -  Mixins (Merge two different schema. Similar to vue mixins)
 
 ## Next Features
@@ -84,7 +84,7 @@ await fookie.listen(8080)
 ![image info](https://raw.githubusercontent.com/umudikk/fookie/main/docs/images/lifecycle.png)
 
 
-This thing, which seems complicated, is actually very simple. I liken it to belts in factories. Many functions work in order and they change the payload little by little. The rules test the accuracy of this payload. Now let's examine all the steps one by one.
+This thing, which seems complicated, is actually very simple. I liken it to belts in factories. Many functions work in order and they change the payload little by little. The store.rule test the accuracy of this payload. Now let's examine all the steps one by one.
 
 ## preRule
 It is an array of asynchronous functions. If all of them return true, the next step is passed. Here, some of the functions are added by fookiejs. Others are determinete in your the model.lifecycle.
@@ -133,7 +133,7 @@ payload.body.__v = ctx.package.version // package.json
 ```
 ## Role
 
-role have to return boolean. when returned false a role, modifies run and manipulate the paylod. This is necessary for security. For example, if a user is not an admin, you do not want to give all the data and you make pagination.
+role have to return boolean. when returned false a role, store.modify run and manipulate the paylod. This is necessary for security. For example, if a user is not an admin, you do not want to give all the data and you make pagination.
 
 ```javascript
 
@@ -206,7 +206,7 @@ fookie.rule("allow_login",async function(payload,ctx){
 ```
 ## Filter
 
-Same with modifies but works after database processing. It is used to change the information that will be returned to response.
+Same with store.modify but works after database processing. It is used to change the information that will be returned to response.
 
 ```javascript
 
@@ -362,13 +362,13 @@ fookie.role(async function(payload,ctx){
 Fookie js comes with default libraries
 
 - ctx.models :Map
-- ctx.rules :Map
+- ctx.store.rule :Map
 - ctx.roles :Map
 - ctx.store :Map
-- ctx.effects :Map
+- ctx.store.effect :Map
 - ctx.routines :Map
-- ctx.filters :Map
-- ctx.modifies :Map
+- ctx.store.filter :Map
+- ctx.store.modify :Map
 - ctx.mixins :Map
 - ctx.modelParser :Map
 - ctx.lodash

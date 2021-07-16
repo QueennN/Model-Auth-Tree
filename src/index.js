@@ -1,8 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const mongooseModelParser = require("./helpers/mongooseModelParser");
-const schemaFixer = require("./helpers/schema_fixer.js");
 const rule = require("./life-cycle/rule.js");
 const effect = require("./life-cycle/effect.js");
 const filter = require("./life-cycle/filter.js");
@@ -15,7 +13,6 @@ const mongoose = require("mongoose");
 const deepMerge = require("deepmerge");
 const axios = require("axios");
 const faker = require("faker");
-const { Schema } = mongoose;
 const Discord = require("discord.js");
 const sequelize = require("sequelize");
 const aws = require("aws-sdk");
@@ -30,14 +27,7 @@ const pckg = require("../package.json");
 
 class Fookie {
    constructor() {
-      this.models = new Map();
-      this.rules = new Map();
-      this.roles = new Map();
-      this.effects = new Map();
       this.routines = new Map();
-      this.filters = new Map();
-      this.modifies = new Map();
-      this.mixins = new Map();
       this.store = new Map();
       this.modelParser = new Map();
       this.corePlugin = new Map();
@@ -83,51 +73,11 @@ class Fookie {
       this.use(core);
    }
 
-   mixin(name, mixin) {
-      this.mixins.set(name, mixin);
-   }
-
-   rule(name, rule) {
-      this.rules.set(name, rule);
-   }
-
-   role(name, role) {
-      this.roles.set(name, role);
-   }
-
-   filter(name, filter) {
-      this.filters.set(name, filter);
-   }
-
-   modify(name, before) {
-      this.modifies.set(name, before);
-   }
-
-   async model(model) {
-      schemaFixer(model);
-      for (let i of model.mixin) {
-         model = deepMerge(model, this.mixins.get(i))
-      }
-      schemaFixer(model);
-      
-      let res = await this.run({
-         system:true,
-         model:"model",
-         method:"post",
-         body:model
-      })
-
-      return res.data;
-   }
-
-   async effect(name, effect) {
-      this.effects.set(name, effect);
-   }
-
    async run(payload) {
       let ctx = this;
       for (let b of this.store.get("befores")) {
-         await this.modifies.get(b)(payload, ctx);
+         console.log(this.store.get("befores"));
+         await this.store.modify.get(b)(payload, ctx);
       }
       if (await preRule(payload, ctx)) {
          await modify(payload, ctx);
@@ -141,7 +91,7 @@ class Fookie {
             payload.response.status = 400;
          }
          for await (let b of this.store.get("afters")) {
-            await this.effects.get(b)(payload, ctx);
+            await this.store.effect.get(b)(payload, ctx);
          }
       } else {
          payload.response.status = 400;

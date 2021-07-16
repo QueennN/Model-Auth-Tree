@@ -1,6 +1,6 @@
 module.exports = {
    name: "model",
-   database:"system",
+   database:"store",
    display: "name",
    schema: {
       name: {
@@ -31,20 +31,20 @@ module.exports = {
    },
    lifecycle: {
       get: {
-         role: ["everybody"],
-         rule:["need_key"],
-      },
-      post: {
-         modify:["set_methods"],
          role: ["admin"],
          rule:["need_key"],
+      },
+      set: {
+         modify:["set_methods"],
+         role: ["admin"],
+         rule:["need_key","fix","set_methods","set_mixins"],
       },
       delete: {
          role: ["admin"],
          rule:["need_key"],
       },
       model: {
-         role: ["everybodt"],
+         role: ["everybody"],
          rule:["need_key"],
       },
       size: {

@@ -1,3 +1,6 @@
 module.exports = async function(ctx){
-    ctx.model(require("./model/index"))
+    await ctx.use(require("./functions/index"))
+    await ctx.use(require("./database/index"))
+    await ctx.use(require("./model/index"))
+    await ctx.use(require("./user/index"))
 }

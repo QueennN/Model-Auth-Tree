@@ -3,11 +3,13 @@ module.exports = async function (ctx) {
    ctx.store.set("afters", ["metric", "log"]);
    ctx.store.set("befores", ["metric", "default_payload", "set_user"]);
 
+   // NEW CORE
+   await ctx.use(require("./new_core/index.js"))
+
    // MIXIN
    ctx.mixin("default_mixin", require("./mixin/default_mixin"))
 
    //MODELS
-   ctx.model(require("./model/system_model.js"));
    ctx.model(require("./model/system_menu.js"));
    ctx.model(require("./model/system_submenu.js"));
    ctx.model(require("./model/webhook.js"));
@@ -18,7 +20,7 @@ module.exports = async function (ctx) {
    await ctx.use(require("../helpers/default_life_cycle_controls"));
    await ctx.use(require("./plugin/first_of_all"));
 
-   //RULES
+   //store.rule
    ctx.rule("has_fields", require("./rule/has_fields"));
    ctx.rule("check_required", require("./rule/check_required"));
    ctx.rule("only_client", require("./rule/only_client"));
@@ -26,7 +28,6 @@ module.exports = async function (ctx) {
    ctx.rule("check_type", require("./rule/check_type"));
    ctx.rule("check_auth", require("./rule/check_auth"));
    ctx.rule("valid_attributes", require("./rule/valid_attributes"));
-   ctx.rule("need_target", require("./rule/need_target"));
    ctx.rule("has_model", require("./rule/has_model"));
    ctx.rule("has_method", require("./rule/has_method"));
    ctx.rule("has_body", require("./rule/has_body"));
@@ -48,14 +49,13 @@ module.exports = async function (ctx) {
    ctx.effect("log", require("./effect/log"));
    ctx.effect("metric", require("./effect/metric"));
 
-   //FILTERS
+   //store.filter
    ctx.filter("filter", require("./filter/filter"));
    ctx.filter("simplified", require("./filter/simplified"));
 
-   //MODIFIES
+   //store.modify
    ctx.modify("password", require("./modify/password"));
    ctx.modify("set_default", require("./modify/set_default"));
-   ctx.modify("set_target", require("./modify/set_target"));
    ctx.modify("set_user", require("./modify/set_user"));
    ctx.modify("default_payload", require("./modify/default_payload"));
    ctx.modify("increase", require("./modify/increase"));
@@ -63,13 +63,10 @@ module.exports = async function (ctx) {
    ctx.modify("version", require("./modify/version"));
    ctx.modify("metric", require("./modify/metric"));
 
-   // DATABASES
-   // mongoose
-   await ctx.use(require("./database/mongoose/index"));
-   await ctx.use(require("./new_core/index"))
 
    // PLUGINS
    //await ctx.use(require("./defaults/plugin/file_storage"))
    await ctx.use(require("./plugin/metric/index"));
-   await ctx.use(require("./plugin/system_user"));
+
+
 };

@@ -1,19 +1,19 @@
 const deepMerge = require("deepmerge");
 const lodash = require('lodash')
-module.exports = function (model) {
+module.exports = async function (payload,ctx) {
    let methods = ["post", "get", "getAll", "patch", "delete", "model", "count", "test"];
-   methods = methods.concat(lodash.keys(model.lifecycle))
+   methods = methods.concat(lodash.keys(payload.body.lifecycle))
    methods = lodash.uniq(methods)
 
-   for (let f of lodash.keys(model.schema)) {
-      model.schema[f] = deepMerge(model.schema[f], {
+   for (let f of lodash.keys(payload.body.schema)) {
+      payload.body.schema[f] = deepMerge(payload.body.schema[f], {
          write: [],
          read: [],
       });
    }
 
    for (let method of methods) {
-      model.lifecycle[method] = deepMerge(model.lifecycle[method], {
+      payload.body.lifecycle[method] = deepMerge(payload.body.lifecycle[method], {
          modify: [],
          effect: [],
          rule: [],
@@ -22,5 +22,5 @@ module.exports = function (model) {
          filter: [],
       });
    }
-   model.mixin = deepMerge(model.mixin, ["default_mixin"]);
+   payload.body.mixin = lodash.uniq(deepMerge(payload.body.mixin, ["default_mixin"])) 
 };

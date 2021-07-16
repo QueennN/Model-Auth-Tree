@@ -26,7 +26,7 @@ module.exports = async function (ctx) {
                 payload.method = payload.options.method + '';
                 payload.options.simplified = false
                 for (let b of ctx.store.get("befores")) {
-                    await ctx.modifies.get(b)(payload, ctx);
+                    await ctx.store.modify.get(b)(payload, ctx);
                 }
                 if (await preRule(payload, ctx)) {
                     await modify(payload, ctx);

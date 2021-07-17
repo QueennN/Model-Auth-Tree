@@ -1,5 +1,5 @@
 module.exports = async function (payload, ctx) {
-   let model = ctx.models.get(payload.model);
+   let model = ctx.store.get("model").get(payload.model);
    let fields = ctx.lodash.keys(payload.body);
    let res = true;
    for (let field of fields) {

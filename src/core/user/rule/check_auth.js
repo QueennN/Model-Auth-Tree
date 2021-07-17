@@ -12,7 +12,7 @@ module.exports = async function (payload, ctx) {
          let modify = [];
          if (res) {
             try {
-               modify = ctx.models.get(payload.model).lifecycle[payload.method].resolve[role];
+               modify = ctx.store.get("model").get(payload.model).lifecycle[payload.method].resolve[role];
             } catch (error) {}
             await Promise.all(modify.map((m) => ctx.store.get("modify").get(m)(payload, ctx)));
             return true;
@@ -21,7 +21,7 @@ module.exports = async function (payload, ctx) {
          payload.response.warnings.push(`You are not: ${role}`);
          modify = [];
          try {
-            modify = ctx.models.get(payload.model).lifecycle[payload.method].reject[role];
+            modify = ctx.store.get("model").get(payload.model).lifecycle[payload.method].reject[role];
          } catch (error) {}
          if (modify.length == 0) return false;
          else {

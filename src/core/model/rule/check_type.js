@@ -9,14 +9,14 @@ let validators = {
 module.exports = async function (payload, ctx) {
    for (field of ctx.lodash.keys(payload.body)) {
       let isValid = false;
-      if (typeof ctx.models.get(payload.model).schema[field].relation == "string") {
+      if (typeof ctx.store.get("model").get(payload.model).schema[field].relation == "string") {
          isValid = true;
       } else {
-         isValid = await validate[validators[ctx.models.get(payload.model).schema[field].type]](payload.body[field]);
+         isValid = await validate[validators[ctx.store.get("model").get(payload.model).schema[field].type]](payload.body[field]);
       }
       if (!isValid) {
          payload.response.warnings.push(
-            `[Check_Type] Invalid type: ${ctx.models.get(payload.model).schema[field].type}`
+            `[Check_Type] Invalid type: ${ctx.store.get("model").get(payload.model).schema[field].type}`
          );
          payload.response.warnings.push(`[Check_Type] Invalid value: ${payload.body[field]}`);
          return false;

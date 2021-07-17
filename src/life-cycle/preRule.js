@@ -1,6 +1,5 @@
 module.exports = async function (payload, ctx) {
    for (let rule of ctx.store.get("first_of_all")) {
-      console.log(payload);
       let res = await ctx.store.get("rule").get(rule)(payload, ctx);
       if (res ==false) {
          payload.response.warnings.push(`false first of all: ${rule}`);
@@ -9,7 +8,7 @@ module.exports = async function (payload, ctx) {
    }
    let preRules = ctx.helpers.defaultArrayCalc(payload, "preRule");
    if (preRules.every((rule) => ctx.store.get("rule").has(rule))) {
-      for (let rule of store.rule) {
+      for (let rule of store.get("rule")) {
          let res = await ctx.store.get("rule").get(rule)(payload, ctx);
          if (res == false) {
             payload.response.warnings.push(`false preRule: ${rule}`);
@@ -18,7 +17,7 @@ module.exports = async function (payload, ctx) {
       }
       return true;
    } else {
-      payload.response.warnings.push(`Missing preRule`,store.rule);
+      payload.response.warnings.push(`Missing preRule`,store.get("rule"));
       return false     
    }
 };

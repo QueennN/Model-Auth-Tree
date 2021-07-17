@@ -3,7 +3,7 @@ module.exports = async function (payload, ctx) {
    if (["patch", "post"].includes(payload.options.method)) {
       type = "write"
    }
-   let model = ctx.models.get(payload.model);
+   let model = ctx.store.get("model").get(payload.model);
    for (let field of ctx.lodash.keys(model.schema)) {
       let roles = model.schema[field][type]
       let show = true;

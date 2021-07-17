@@ -1,59 +1,59 @@
-module.exports = async function(ctx){
+module.exports = async function (ctx) {
     ctx.store.set("secret", "secret");
     ctx.store.set("afters", []);
-    ctx.store.set("befores", []);
- 
+    ctx.store.set("befores", ["default_payload"]);
+
     // IMPORTANT PLUGINS
     await ctx.use(require("../helpers/after_before_calculater"));
     await ctx.use(require("./plugin/health_check"));
     await ctx.use(require("./plugin/first_of_all"));
     await ctx.use(require("../helpers/default_life_cycle_controls"));
 
-    // LIFECYCLE
-    await ctx.modify("fix",require("./modify/fix.js"))
-    await ctx.modify("set_methods",require("./modify/set_methods.js"))
-    await ctx.modify("set_mixins",require("./modify/set_mixins.js"))
-    
-    await ctx.rule("has_fields", require("./rule/has_fields"));
-    await ctx.rule("check_required", require("./rule/check_required"));
-    await ctx.rule("only_client", require("./rule/only_client"));
-    await ctx.rule("has_model", require("./rule/has_model"));
-    await ctx.rule("has_method", require("./rule/has_method"));
-    await ctx.rule("unique", require("./rule/unique"));
-    await ctx.rule("check_type", require("./rule/check_type"));
-    await ctx.rule("has_body", require("./rule/has_body"));
-    await ctx.rule("field_control", require("./rule/field_control"));
-    await ctx.rule("need_method_in_options", require("./rule/need_method_in_options"));
-   ctx.mixin("default_mixin", require("./new_core/model/mixin/default_mixin"))
-   ctx.rule("valid_payload", require("./rule/valid_payload"));
-   ctx.rule("valid_attributes", require("./rule/valid_attributes")); 
-   ctx.effect("sync", require("./effect/sync"));
-   ctx.effect("webhook", require("./new_core/model/effect/webhook"));
-   ctx.effect("log", require("./effect/log"));
-   ctx.effect("metric", require("./effect/metric"));
-   ctx.filter("filter", require("./filter/filter"));
-   ctx.filter("simplified", require("./new_core/model/filter/simplified"));
-   ctx.modify("password", require("./user/modify/password"));
-   ctx.modify("set_default", require("./modify/set_default"));
-   ctx.modify("set_user", require("./new_core/user/modify/set_user"));
-   ctx.modify("default_payload", require("./modify/default_payload"));
-   ctx.modify("increase", require("./modify/increase"));
-   ctx.modify("attributes", require("./new_core/model/effect/attributes"));
-   ctx.modify("version", require("./new_core/model/modify/version"));
-   ctx.modify("metric", require("./modify/metric"));
-
-
-   // PLUGINS
-   //await ctx.use(require("./defaults/plugin/file_storage"))
-   await ctx.use(require("./plugin/metric/index"));
-
-
-    // Plugins
-    await ctx.use(require("./database/index")) 
+    //CORE
+    await ctx.use(require("./plugin/metric/index"));
+    await ctx.use(require("./database/index"))
     await ctx.use(require("./model/index"))
     await ctx.use(require("./functions/index"))
-
-
     await ctx.use(require("./user/index"))
 
+    // LIFECYCLE
+    await ctx.modify("fix", require("./model/modify/fix.js"))
+    await ctx.modify("set_methods", require("./model/modify/set_methods.js"))
+    await ctx.modify("set_mixins", require("./model/modify/set_mixins.js"))
+    await ctx.rule("has_fields", require("./model/rule/has_fields"));
+    await ctx.rule("check_required", require("./model/rule/check_required"));
+    await ctx.rule("only_client", require("./model/rule/only_client"));
+    await ctx.rule("has_model", require("./model/rule/has_model"));
+    await ctx.rule("has_method", require("./model/rule/has_method"));
+    await ctx.rule("unique", require("./model/rule/unique"));
+    await ctx.rule("check_type", require("./model/rule/check_type"));
+    await ctx.rule("has_body", require("./model/rule/has_body"));
+    await ctx.rule("field_control", require("./model/rule/field_control"));
+    await ctx.rule("need_method_in_options", require("./model/rule/need_method_in_options"));
+    await ctx.mixin("default_mixin", require("./model/mixin/default_mixin"))
+    await ctx.rule("valid_payload", require("./model/rule/valid_payload"));
+    await ctx.rule("valid_attributes", require("./model/rule/valid_attributes"));
+    await ctx.effect("sync", require("./model/effect/sync"));
+    await ctx.effect("webhook", require("./model/effect/webhook"));
+    await ctx.effect("log", require("./model/effect/log"));
+    await ctx.effect("metric", require("./model/effect/metric"));
+    await ctx.filter("filter", require("./model/filter/filter"));
+    await ctx.filter("simplified", require("./model/filter/simplified"));
+    await ctx.modify("password", require("./user/modify/password"));
+    await ctx.modify("set_default", require("./model/modify/set_default"));
+    await ctx.modify("set_user", require("./user/modify/set_user"));
+    await ctx.modify("default_payload", require("./model/modify/default_payload"));
+    await ctx.modify("increase", require("./model/modify/increase"));
+    await ctx.modify("attributes", require("./model/modify/attributes"));
+    await ctx.modify("version", require("./model/modify/version"));
+    await ctx.modify("metric", require("./model/modify/metric"));
+    
+    ctx.rule("check_auth", require("./user/rule/check_auth"));
+    ctx.rule("has_pwemail", require("./user/rule/has_pwemail"));
+
+    ctx.role("loggedin", require("./user/role/loggedin"));
+    ctx.role("everybody", require("./user/role/everybody"));
+    ctx.role("nobody", require("./user/role/nobody"));
+    ctx.role("system_admin", require("./user/role/system_admin"));
+    ctx.role("system", require("./user/role/system"));
 }

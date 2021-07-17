@@ -1,7 +1,6 @@
 module.exports = async function (payload, ctx) {
    if (payload.hasOwnProperty("method") && typeof payload.method == "string") {
-      let model = ctx.models.get(payload.model);
-   console.log(payload);
+      let model = ctx.store.get("model").get(payload.model);
       if (ctx.databases.get(model.database).methods.has(payload.method)) {
          return true;
       } else {

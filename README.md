@@ -27,7 +27,7 @@ our application with small code pieces.
 - Request Life Cycle
 - Everything is a plugin.
 - Routines (SetInterval)
-- Deafult models, store.rule, roles, store.filter, store.effect, store.modify and methods.
+- Deafult models, store.get("rule"), roles, store.get("filter"), store.get("effect"), store.get("modify") and methods.
 - Mixins (Merge two different schema. Similar to vue mixins)
 
 ## Next Features

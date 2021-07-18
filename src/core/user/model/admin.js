@@ -1,32 +1,11 @@
 module.exports = {
-    name: "model",
+    name: "admin",
     database:"store",
     display: "name",
     schema: {
-       name: {
-          input: "text",
+       user: {
+          relative:"user",
           required: true,
-          type: "string",
-       },
-       display: {
-          input: "text",
-          type: "string",
-          default: "_id",
-       },
-       database: {
-          input: "text",
-          required: true,
-          type: "string",
-       },
-       schema: {
-          input: "json",
-          required: true,
-          type: "object",
-       },
-       lifecycle: {
-          input: "json",
-          required: true,
-          type: "object",
        },
     },
     lifecycle: {

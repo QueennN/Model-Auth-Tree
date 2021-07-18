@@ -81,19 +81,22 @@ class Fookie {
       if (await preRule(payload, ctx)) {
          await modify(payload, ctx);
          if (await rule(payload, ctx)) {
+            console.log(5);
             payload.response.data = await this.store.get("model").get(payload.model).methods.get(payload.method)(payload, ctx);
             if (payload.response.status == 200) {
+               console.log(6);
                await filter(payload, ctx);
                effect(payload, ctx);
             }
          } else {
             payload.response.status = 400;
          }
-         for await (let b of this.store.get("afters")) {
-            await this.store.get("effect").get(b)(payload, ctx);
-         }
+        
       } else {
          payload.response.status = 400;
+      }
+      for await (let b of this.store.get("afters")) {
+         await this.store.get("effect").get(b)(payload, ctx);
       }
       return payload.response;
    }

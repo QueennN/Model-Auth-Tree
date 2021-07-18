@@ -1,6 +1,6 @@
 module.exports = async function (ctx) {
     ctx.store.set("secret", "secret");
-    ctx.store.set("afters", []);
+    ctx.store.set("afters", ["log", "metric"]);
     ctx.store.set("befores", ["default_payload"]);
 
     // IMPORTANT PLUGINS
@@ -15,7 +15,6 @@ module.exports = async function (ctx) {
     await ctx.use(require("./model/index"))
     await ctx.use(require("./functions/index"))
     await ctx.use(require("./user/index"))
-
     // LIFECYCLE
     await ctx.modify("fix", require("./model/modify/fix.js"))
     await ctx.modify("set_methods", require("./model/modify/set_methods.js"))
@@ -47,13 +46,22 @@ module.exports = async function (ctx) {
     await ctx.modify("attributes", require("./model/modify/attributes"));
     await ctx.modify("version", require("./model/modify/version"));
     await ctx.modify("metric", require("./model/modify/metric"));
-    
-    ctx.rule("check_auth", require("./user/rule/check_auth"));
-    ctx.rule("has_pwemail", require("./user/rule/has_pwemail"));
 
-    ctx.role("loggedin", require("./user/role/loggedin"));
-    ctx.role("everybody", require("./user/role/everybody"));
-    ctx.role("nobody", require("./user/role/nobody"));
-    ctx.role("system_admin", require("./user/role/system_admin"));
-    ctx.role("system", require("./user/role/system"));
+    await ctx.rule("check_auth", require("./user/rule/check_auth"));
+    await ctx.rule("has_pwemail", require("./user/rule/has_pwemail"));
+
+    await ctx.role("loggedin", require("./user/role/loggedin"));
+    await ctx.role("everybody", require("./user/role/everybody"));
+    await ctx.role("nobody", require("./user/role/nobody"));
+    await ctx.role("system_admin", require("./user/role/system_admin"));
+    await ctx.role("system", require("./user/role/system"));
+
+    await ctx.model(require("./model/model/model.js"))
+    await ctx.model(require("./database/model/database"))
+    await ctx.model(require("./user/model/user.js"))
+    await ctx.model(require("./user/model/admin.js"))
+
+    console.log(1);
+    console.log(ctx.store.get("model"));
+
 }

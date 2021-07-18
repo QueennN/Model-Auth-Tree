@@ -34,10 +34,9 @@ module.exports = {
          role: ["admin"],
          rule:["need_key"],
       },
-      set: {
-         modify:["set_methods"],
+      post: {
+         modify:["set_methods","fix","set_methods","set_mixins"],
          role: ["admin"],
-         rule:["need_key","fix","set_methods","set_mixins"],
       },
       delete: {
          role: ["admin"],
@@ -45,11 +44,11 @@ module.exports = {
       },
       model: {
          role: ["everybody"],
-         rule:["need_key"],
+         rule:[],
       },
       size: {
          role: ["admin"],
-         rule:["need_key"],
+         rule:[],
       },
    },
 };

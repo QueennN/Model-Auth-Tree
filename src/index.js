@@ -30,8 +30,6 @@ class Fookie {
       this.routines = new Map();
       this.store = new Map();
       this.modelParser = new Map();
-      this.corePlugin = new Map();
-      this.databases = new Map();
       this.lodash = lodash;
       this.axios = axios;
       this.faker = faker;
@@ -90,7 +88,7 @@ class Fookie {
          } else {
             payload.response.status = 400;
          }
-        
+
       } else {
          payload.response.status = 400;
       }

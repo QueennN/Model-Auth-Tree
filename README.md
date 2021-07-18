@@ -1,8 +1,6 @@
 # Introduction
 
-Fookie JS is a lifecycle-based web application development method. It does most
-things automatically for your APIs. In this way, it allows you to easily make
-our application with small code pieces.
+Fookie JS is a lifecycle-based web application development method. It does most things automatically for your APIs. In this way, it allows you to easily make our application with small code pieces.
 
 ## Core Features
 
@@ -31,22 +29,18 @@ our application with small code pieces.
 - Mixins (Merge two different schema. Similar to vue mixins)
 
 ## Next Features
-
-- More metric
-- Dockerizing
-- Auto tests
-- Client for Vue JS. Auto generated post forms, tables, kanbans, admin-panel
-  like strapi.
-- Media Library and ready to use streaming service.
-- Auto generated documentation.
-- Querystring support.
-- More database support.
+-  More metric
+-  Dockerizing
+-  Auto tests
+-  Client for Vue JS. Auto generated post forms, tables, kanbans, admin-panel like strapi.
+-  Media Library and ready to use streaming service.
+-  Auto generated documentation.
+-  Querystring support.
+-  More database support.
 
 # Documentation
-
 ## Website
 http://fookiejs.com
-
 ## Github Pages
 https://umudikk.github.io/fookie/#/
 
@@ -60,7 +54,6 @@ https://discord.gg/XJBTyG73TG
 ```
 npm install fookie --save
 ```
-
 ```javascript
 const Fookie = require("fookie");
 const fookie = new Fookie({

@@ -303,7 +303,6 @@ payload = {
     user:{_id:"somemongooseID",email:"example@example.com"},
     method:"patch",
     model:"system_user",
-    key:"system_user", // query for store
     attributes:["email"] // takes only the specified field 
     query:{
         $eq:{

@@ -61,7 +61,6 @@ module.exports = async function (ctx) {
     await ctx.model(require("./user/model/user.js"))
     await ctx.model(require("./user/model/admin.js"))
 
-    console.log(1);
     console.log(ctx.store.get("model"));
 
 }

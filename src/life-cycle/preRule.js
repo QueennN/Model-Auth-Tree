@@ -8,7 +8,8 @@ module.exports = async function (payload, ctx) {
    }
    let preRules = ctx.helpers.defaultArrayCalc(payload, "preRule");
    if (preRules.every((rule) => ctx.store.get("rule").has(rule))) {
-      for (let rule of store.get("rule")) {
+      for (let rule of preRules) {
+         console.log(rule);
          let res = await ctx.store.get("rule").get(rule)(payload, ctx);
          if (res == false) {
             payload.response.warnings.push(`false preRule: ${rule}`);

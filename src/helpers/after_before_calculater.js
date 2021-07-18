@@ -1,5 +1,6 @@
 module.exports = function (ctx) {
-   ctx.helpers.defaultArrayCalc = function (payload, mapName) {
+      ctx.helpers.defaultArrayCalc = function (payload, mapName) {
+      return []
       let a1 = [];
       let a2 = [];
       let a3 = [];

@@ -21,33 +21,33 @@ module.exports = async function (ctx) {
 
                 let MDL = mongooseBodyParser(payload.body)
 
-                payload.body.methods.set("get", async function (_payload, _ctx) {
+                ctx.store.get("model").get(payload.body.name).methods.set("get", async function (_payload, _ctx) {
                     let res = await MDL.findOne(_payload.query, _payload.attributes, _payload.projection);
                     return res;
                 });
-                payload.body.methods.set("getAll", async function (_payload, _ctx) {
+                ctx.store.get("model").get(payload.body.name).methods.set("getAll", async function (_payload, _ctx) {
                     let res = await MDL.find(_payload.query, _payload.attributes, _payload.projection);
                     return res;
                 });
-                payload.body.methods.set("post", async function (_payload, _ctx) {
+                ctx.store.get("model").get(payload.body.name).methods.set("post", async function (_payload, _ctx) {
                     let res = await MDL.create(_payload.body);
                     return res;
                 });
-                payload.body.methods.set("delete", async function (_payload, _ctx) {
+                ctx.store.get("model").get(payload.body.name).methods.set("delete", async function (_payload, _ctx) {
                     let res = await MDL.deleteMany(_payload.query);
                     return res;
                 });
-                payload.body.methods.set("patch", async function (_payload, _ctx) {
+                ctx.store.get("model").get(payload.body.name).methods.set("patch", async function (_payload, _ctx) {
                     return await MDL.updateMany(_payload.query, _payload.body);
                 });
-                payload.body.methods.set("_payload.body", async function (_payload, _ctx) {
+                ctx.store.get("model").get(payload.body.name).methods.set("_payload.body", async function (_payload, _ctx) {
                     return JSON.parse(JSON.stringify(_payload.body))
                 });
-                payload.body.methods.set("count", async function (_payload, _ctx) {
+                ctx.store.get("model").get(payload.body.name).methods.set("count", async function (_payload, _ctx) {
                     let res = await MDL.countDocuments(_payload.query);
                     return res;
                 });
-                payload.body.methods.set("test", async function (_payload, _ctx) {
+                ctx.store.get("model").get(payload.body.name).methods.set("test", async function (_payload, _ctx) {
                     _payload.method = _payload.options.method + '';
                     _payload.options.simplified = false
                     for (let b of _ctx.store.get("befores")) {
@@ -65,37 +65,36 @@ module.exports = async function (ctx) {
         })
         
         module.exports = async function (ctx) {
-            ctx.database("system", {
+            ctx.database("store", {
                 connect: async function () {
                     console.log("dont need")
                 },
                 modify: async function (payload, ctx) {
-                    payload.body.methods = new Map()
-                    payload.body.methods.set("get", async function (payload, ctx) {
-                        return ctx[payload.model].get(payload.key)
+                    ctx.store.get("model").get(payload.body.name).methods.set("get", async function (_payload, _ctx) {
+                        return ctx.store[_payload.model].get(_payload.key)
                     });
-                    payload.body.methods.set("post", async function (payload, ctx) {
-                        ctx[payload.model].set(payload.key, payload.body)
-                        return payload.body
+                    ctx.store.get("model").get(payload.body.name).methods.set("post", async function (_payload, ctx) {
+                        ctx.store[_payload.model].set(_payload.key, _payload.body)
+                        return _payload.body
                     });
-                    payload.body.methods.set("delete", async function (payload, ctx) {
-                        ctx[payload.model].delete(payload.key)
+                    ctx.store.get("model").get(payload.body.name).methods.set("delete", async function (_payload, ctx) {
+                        ctx.store[_payload.model].delete(_payload.key)
                     });
-                    payload.body.methods.set("model", async function (payload, ctx) {
-                        return JSON.parse(JSON.stringify(model))
+                    ctx.store.get("model").get(payload.body.name).methods.set("model", async function (_payload, ctx) {
+                        return JSON.parse(JSON.stringify(payload.body))
                     });
-                    payload.body.methods.set("size", async function (payload, ctx) {
-                        payload.body.methods.size
+                    ctx.store.get("model").get(payload.body.name).methods.set("size", async function (_payload, ctx) {
+                        _payload.body.methods.size
                     });
-                    payload.body.methods.set("test", async function (payload, ctx) {
-                        payload.method = payload.options.method + '';
-                        payload.options.simplified = false
+                    ctx.store.get("model").get(payload.body.name).methods.set("test", async function (_payload, ctx) {
+                        _payload.method = _payload.options.method + '';
+                        _payload.options.simplified = false
                         for (let b of ctx.store.get("befores")) {
-                            await ctx.store.get("modify").get(b)(payload, ctx);
+                            await ctx.store.get("modify").get(b)(_payload, ctx);
                         }
-                        if (await preRule(payload, ctx)) {
-                            await modify(payload, ctx);
-                            if (await rule(payload, ctx)) {
+                        if (await preRule(_payload, ctx)) {
+                            await modify(_payload, ctx);
+                            if (await rule(_payload, ctx)) {
                                 return true;
                             }
                         }

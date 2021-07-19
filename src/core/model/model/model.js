@@ -35,7 +35,7 @@ module.exports = {
          rule:["need_key"],
       },
       post: {
-         modify:["set_methods","fix","set_methods","set_mixins"],
+         modify:["set_methods","fix","set_mixins"],
          role: ["admin"],
       },
       delete: {

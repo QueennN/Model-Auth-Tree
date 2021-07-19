@@ -70,7 +70,7 @@ class Fookie {
 
       this.use(core);
    }
-
+   //TODO BU modelde payload üzerinden ayarlama yapmak lazım şuan sanırım get ile almaya calısıyor.
    async run(payload) { // THINK: May be dynamic steps
       let ctx = this;
       for (let b of this.store.get("befores")) {
@@ -79,9 +79,9 @@ class Fookie {
       if (await preRule(payload, ctx)) {
          await modify(payload, ctx);
          if (await rule(payload, ctx)) {
+            console.log(payload);
             payload.response.data = await this.store.get("model").get(payload.model).methods.get(payload.method)(payload, ctx);
             if (payload.response.status == 200) {
-               console.log(6);
                await filter(payload, ctx);
                effect(payload, ctx);
             }

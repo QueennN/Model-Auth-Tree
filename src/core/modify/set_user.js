@@ -5,6 +5,7 @@ module.exports = async function (payload, ctx) {
    let parsed = false;
    try {
       parsed = jwt.verify(payload.token, ctx.store.get("secret"));
+      payload.user = parsed
    } catch (error) {
       payload.response.warnings.push("invalid token");
    }

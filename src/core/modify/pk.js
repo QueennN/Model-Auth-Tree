@@ -1,5 +1,5 @@
 module.exports = function (payload, ctx) {
-    console.log("pk");
+    // BOdydeki pk durak mı düşün?
     let model = ctx.models.get(payload.model)
     let database = ctx.databases.get(model.database)
     if (ctx.lodash.has(payload.body, "pk")) {

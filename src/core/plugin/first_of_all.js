@@ -5,6 +5,5 @@ module.exports = async function (ctx) {
       getAll:"read",
       post:"write",
       patch:"write",
-      getAll:"write",
    });
 };

@@ -7,7 +7,7 @@ let validators = {
    object: "isObject",
 };
 module.exports = async function (payload, ctx) {
-   for (field of ctx.lodash.keys(payload.body)) {
+   for (let field of ctx.lodash.keys(payload.body)) {
       let isValid = false;
       if (typeof ctx.models.get(payload.model).schema[field].relation == "string") {
          isValid = true;

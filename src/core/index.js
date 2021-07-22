@@ -69,6 +69,7 @@ module.exports = async function (ctx) {
    ctx.modify("attributes", require("./modify/attributes"));
    ctx.modify("version", require("./modify/version"));
    ctx.modify("metric", require("./modify/metric"));
+   ctx.modify("pk", require("./modify/pk"));
 
 
 

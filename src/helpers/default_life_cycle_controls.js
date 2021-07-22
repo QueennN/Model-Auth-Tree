@@ -3,7 +3,7 @@ module.exports = async function (ctx) {
       get: {
          modify: {
             before: [],
-            after: ["attributes"],
+            after: ["attributes","pk"],
          },
          rule: {
             before: [],
@@ -25,7 +25,7 @@ module.exports = async function (ctx) {
       getAll: {
          modify: {
             before: [],
-            after: ["attributes"],
+            after: ["attributes","pk"],
          },
          rule: {
             before: [],
@@ -47,14 +47,14 @@ module.exports = async function (ctx) {
       post: {
          modify: {
             before: ["set_default", "increase"],
-            after: ["attributes","version"],
+            after: ["attributes","version","pk"],
          },
          rule: {
             before: [ "check_required","has_fields", "check_type" ,"field_control", "unique"],
             after: ["check_auth"],
          },
          preRule: {
-            before: ["has_model", "has_method", "has_fields", "only_client", "has_body"],
+            before: ["has_model", "has_method", "only_client", "has_body"],
             after: [],
          },
          filter: {
@@ -69,7 +69,7 @@ module.exports = async function (ctx) {
       patch: {
          modify: {
             before: ["set_target"],
-            after: ["attributes"],
+            after: ["attributes","pk"],
          },
          rule: {
             before: ["need_target", "has_fields", "check_type", "check_required", "field_control", "unique"],
@@ -91,7 +91,7 @@ module.exports = async function (ctx) {
       delete: {
          modify: {
             before: ["set_target"],
-            after: [],
+            after: ["pk"],
          },
          rule: {
             before: ["need_target"],
@@ -113,7 +113,7 @@ module.exports = async function (ctx) {
       count: {
          modify: {
             before: [],
-            after: [],
+            after: ["pk"],
          },
          rule: {
             before: [],
@@ -160,11 +160,11 @@ module.exports = async function (ctx) {
             after: [],
          },
          rule: {
-            before: [],
+            before: ["has_fields",],
             after: ["check_auth"],
          },
          preRule: {
-            before: ["has_model", "has_method", "has_fields", "need_method_in_options"],
+            before: ["has_model", "has_method", "need_method_in_options"],
             after: [],
          },
          filter: {

@@ -1,6 +1,7 @@
 module.exports = async function (ctx) {
     ctx.database("mongodb", {
         name: "mongodb",
+        pk:"_id",
         types: {
             string: ctx.mongoose.Schema.Types.String,
             number: ctx.mongoose.Schema.Types.Number,
@@ -11,8 +12,8 @@ module.exports = async function (ctx) {
             _id: ctx.mongoose.Schema.Types.ObjectId,
             array:ctx.mongoose.Schema.Types.Array
         },
-        connect: async function (url,config) {
-            await ctx.mongoose.connect(url, config);
+        connect: async function (config) {
+            await ctx.mongoose.connect(config.url, config.options);
         },
         modify: async function (model, ctx) {
             let schema = {};

@@ -20,4 +20,6 @@ services:
       - '9090:9090'
     volumes: 
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+  redis:
+    image: "redis:alpine"
 

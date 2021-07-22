@@ -2,6 +2,7 @@ module.exports = async function(ctx){
     ctx.database("posgtre",{
         name:"postgre",
         types:{},
+        pk:"id",
         connect:async function(){
             console.log("connection");
         },

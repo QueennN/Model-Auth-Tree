@@ -25,6 +25,8 @@ const nodemailer = require("nodemailer");
 const multer = require("multer");
 const CryptoJS = require("crypto-js");
 const pckg = require("../package.json");
+const redis = require("redis");
+const cassandra = require('cassandra-driver');
 
 class Fookie {
    constructor() {
@@ -45,7 +47,9 @@ class Fookie {
       this.discord = Discord;
       this.mongoose = mongoose;
       this.sequelize = sequelize;
+      this.redis = redis
       this.aws = aws;
+      this.cassandra = cassandra
       this.moment = moment;
       this.chalk = chalk;
       this.validator = validator;

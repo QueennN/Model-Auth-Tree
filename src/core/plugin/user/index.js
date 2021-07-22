@@ -19,7 +19,7 @@ module.exports = async function (ctx) {
          body: {
             email: "admin",
             password: "admin",
-            type: "normal",
+            type: "admin",
          },
       });
       await ctx.run({
@@ -45,7 +45,7 @@ module.exports = async function (ctx) {
       });
       let user = res.data;
       if (user) {
-         const token = jwt.sign({ _id: user._id }, ctx.store.get("secret"));
+         const token = jwt.sign(user, ctx.store.get("secret"));
          return token;
       } else {
          response.status = 201;

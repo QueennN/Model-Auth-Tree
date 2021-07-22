@@ -1,17 +1,17 @@
 module.exports = async function (payload, ctx) {
    let model = ctx.models.get(payload.model);
-    let keys = ctx.lodash.keys(model.schema);
+   let keys = ctx.lodash.keys(payload.body);
    for (let key of keys) {
       if (model.schema[key].relation) {
          let res = await tx.run({
-            system:true,
+            system: true,
             model: model.schema[key].relation,
-            query:{
-               _id:payload.body[key]
+            query: {
+               [model.database.pk]: payload.body[key]
             },
-            key:payload.body[key]
+            key: payload.body[key]
          })
-         if(res === false) return false 
+         if (!res) return false
       }
    }
    return true

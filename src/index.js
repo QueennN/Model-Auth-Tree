@@ -143,8 +143,8 @@ class Fookie {
    }
 
    async run(payload) {
-      let ctx = this;
-      for (let b of this.store.get("befores")) {
+      let ctx = this;   
+      for (let b of this.store.get("befores")) {        
          await this.modifies.get(b)(payload, ctx);
       }
       if (await preRule(payload, ctx)) {

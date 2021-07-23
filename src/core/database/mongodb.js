@@ -33,11 +33,11 @@ module.exports = async function (ctx) {
 
 
             model.methods.set("get", async function (payload, ctx) {
-                let res = await Model.findOne(payload.query, payload.attributes, payload.projection);
+                let res = await Model.findOne(payload.query, payload.attributes, payload.projection).lean();
                 return res;
             });
             model.methods.set("getAll", async function (payload, ctx) {
-                let res = await Model.find(payload.query, payload.attributes, payload.projection);
+                let res = await Model.find(payload.query, payload.attributes, payload.projection).lean();
                 return res;
             });
             model.methods.set("post", async function (payload, ctx) {
@@ -48,9 +48,8 @@ module.exports = async function (ctx) {
                 let res = await Model.deleteMany(payload.query);
                 return res;
             });
-            model.methods.set("patch", async function (payload, ctx) {
-                await Model.updateMany(payload.query, payload.body);
-                return payload.body
+            model.methods.set("patch", async function (payload, ctx) {              
+                return   await Model.updateMany(payload.query, payload.body);
             });
 
             model.methods.set("count", async function (payload, ctx) {

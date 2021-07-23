@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 module.exports = async function (payload, ctx) {
    if (ctx.lodash.has(payload, "system")) return payload.system;
-
    let parsed = false;
    try {
       parsed = jwt.verify(payload.token, ctx.store.get("secret"));
@@ -14,7 +13,7 @@ module.exports = async function (payload, ctx) {
       model: "user",
       method: "get",
       query: {
-         _id: parsed._id,
+         pk: parsed._id,
       },
    });
 

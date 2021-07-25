@@ -8,16 +8,4 @@ module.exports = async function (payload, ctx) {
    } catch (error) {
       payload.response.warnings.push("invalid token");
    }
-   let userResponse = await ctx.run({
-      system: true,
-      model: "user",
-      method: "get",
-      query: {
-         pk: parsed._id,
-      },
-   });
-
-   if (userResponse.data) {
-      payload.user = userResponse.data;
-   }
 };

@@ -46,6 +46,7 @@ module.exports = {
          effect: ["sync"],
       },
       post: {
+         modify:["set_mixin","fix_schema","database_modify"],
          role: ["admin"],
          effect: ["sync"],
       },

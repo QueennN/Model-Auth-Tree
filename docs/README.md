@@ -127,7 +127,7 @@ body:{
    }
 }
 */
-payload.body.__v = ctx.package.version // package.json
+payload.body.version = ctx.package.version // package.json
 })
 
 ```

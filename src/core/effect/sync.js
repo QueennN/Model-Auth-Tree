@@ -1,7 +1,7 @@
 module.exports = async (payload, ctx) => {
-    if(payload.method =="delete"){
+    if (payload.method == "delete") {
         ctx.models.delete(payload.body.name)
-    }else{
-        ctx.model(payload.body)
+    } else {
+        ctx.models.set(model.name, model);
     }
-};
+}

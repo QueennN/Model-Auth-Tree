@@ -1,6 +1,6 @@
 module.exports = {
     schema:{
-        __v:{
+        version:{
             type:"string"            
         }
     }

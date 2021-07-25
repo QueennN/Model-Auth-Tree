@@ -23,4 +23,5 @@ module.exports = function (model) {
       });
    }
    model.mixin = deepMerge(model.mixin, ["default_mixin"]);
+   return model
 };

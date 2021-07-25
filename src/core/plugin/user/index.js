@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const { sha512 } = require("js-sha512");
 const sustem_user = require("./model/user")
 module.exports = async function (ctx) {
+   return
    await ctx.model(sustem_user)
    let sys_user = ctx.models.get("user")
 

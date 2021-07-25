@@ -40,7 +40,7 @@ class Fookie {
       this.modifies = new Map();
       this.mixins = new Map();
       this.store = new Map();
-      this.store.set("model",[])
+      this.store.set("model", [])
       this.modelParser = new Map();
       this.lodash = lodash;
       this.axios = axios;
@@ -67,6 +67,7 @@ class Fookie {
          filter,
          preRule,
          modify,
+         schemaFixer
       };
 
       this.app = express();
@@ -110,35 +111,12 @@ class Fookie {
    }
 
    async model(model) {
-      schemaFixer(model);
-      for (let i of model.mixin) {
-         model = deepMerge(model, this.mixins.get(i))
-      }
-      schemaFixer(model);
-      model.methods = new Map();
-      this.databases.get(model.database).modify(model, this)
-
-      model.methods.set("model", async function (payload, ctx) {
-         return JSON.parse(JSON.stringify(model))
-      });
-
-      model.methods.set("test", async function (payload, ctx) {
-         payload.method = payload.options.method + '';
-         for (let b of ctx.store.get("befores")) {
-            await ctx.modifies.get(b)(payload, ctx);
-         }
-         if (await preRule(payload, ctx)) {
-            await modify(payload, ctx);
-            if (await rule(payload, ctx)) {
-               return true;
-            }
-         }
-         return false;
-      });
-
-      this.models.set(model.name, model);
-      this.store.get("model").push(model)
-      return model;
+      await this.run({
+         system: true,
+         model: "model",
+         method: "post",
+         body: model
+      })
    }
 
    async effect(name, effect) {

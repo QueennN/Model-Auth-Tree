@@ -5,6 +5,7 @@ let validators = {
    string: "isString",
    number: "isNumber",
    object: "isObject",
+   array:"isArray"
 };
 module.exports = async function (payload, ctx) {
    for (let field of ctx.lodash.keys(payload.body)) {

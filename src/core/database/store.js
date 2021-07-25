@@ -16,6 +16,7 @@ module.exports = async function (ctx) {
             });
 
             model.methods.set("post", async function (payload, ctx) {
+                console.log(1);
                 ctx.store.get(payload.model).push(payload.body)
                 return payload.body
             });

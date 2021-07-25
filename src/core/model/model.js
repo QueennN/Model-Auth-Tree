@@ -29,9 +29,17 @@ module.exports = {
          required: true,
          type: "object",
       },
+      methods:{
+         input:"json",
+         type:"object",
+         write:["nobody"]
+      },
       mixin:{
          input: "json",
          type: "array",
+      },
+      version:{
+         type:"string"
       }
    },
    lifecycle: {
@@ -42,6 +50,7 @@ module.exports = {
          role: ["everybody"],
       },
       patch: {
+         modify:["set_mixin","fix_schema","database_modify"],
          role: ["admin"],
          effect: ["sync"],
       },
@@ -60,5 +69,7 @@ module.exports = {
          role: ["admin"],
       },
    },
-   mixin:[]
+   methods:{},
+   mixin:["default_mixin"],
+   version:"core"
 };

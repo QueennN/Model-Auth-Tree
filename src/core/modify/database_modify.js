@@ -19,5 +19,5 @@ module.exports = function (payload, ctx) {
       }
       return false;
    });
-
+   ctx.models.set(payload.body.name,payload.body) //THINK tricky yöntem fakat bilmiyorum dogrumu ??? >£#$>#£$ª¶£#
 };

@@ -1,38 +1,10 @@
 const jwt = require("jsonwebtoken");
 const { sha512 } = require("js-sha512");
-const sustem_user = require("./model/user")
+const system_user = require("./model/user")
 module.exports = async function (ctx) {
-   return
-   await ctx.model(sustem_user)
+   await ctx.model(system_user)
    let sys_user = ctx.models.get("user")
-
-   let res = await ctx.run({
-      system: true,
-      model: "user",
-      method: "count",
-   });
-   let count = res.data;
-   if (count == 0) {
-      let user = await ctx.run({
-         system: true,
-         model: "user",
-         method: "post",
-         body: {
-            email: "admin",
-            password: "admin",
-            type: "admin",
-         },
-      });
-      await ctx.run({
-         system: true,
-         model: "admin",
-         method: "post",
-         body: {
-            user: user.data._id,
-         },
-      });
-   }
-
+   
    sys_user.methods.set("login", async ({ body, response }, ctx) => {
       let { email, password } = body;
       let res = await ctx.run({
@@ -78,4 +50,31 @@ module.exports = async function (ctx) {
 
       return res.data != 1
    })
+
+   let res = await ctx.run({
+      system: true,
+      model: "user",
+      method: "count",
+   });
+   let count = res.data;
+   if (count == 0) {
+      let user = await ctx.run({
+         system: true,
+         model: "user",
+         method: "post",
+         body: {
+            email: "admin",
+            password: "admin",
+            type: "admin",
+         },
+      });
+      await ctx.run({
+         system: true,
+         model: "admin",
+         method: "post",
+         body: {
+            user: user.data._id,
+         },
+      });
+   }
 };

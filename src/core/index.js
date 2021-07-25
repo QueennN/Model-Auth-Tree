@@ -22,6 +22,7 @@ module.exports = async function (ctx) {
 
    await ctx.use(require("./plugin/metric/index"));
 
+   // RULES
    ctx.rule("has_fields", require("./rule/has_fields"));
    ctx.rule("check_required", require("./rule/check_required"));
    ctx.rule("only_client", require("./rule/only_client"));
@@ -37,6 +38,7 @@ module.exports = async function (ctx) {
    ctx.rule("valid_payload", require("./rule/valid_payload"));
    ctx.rule("field_control", require("./rule/field_control"));
    ctx.rule("unique", require("./rule/unique"));
+   ctx.rule("has_database", require("./rule/has_database"));
 
    //ROLES
    ctx.role("loggedin", require("./role/loggedin"));
@@ -67,11 +69,15 @@ module.exports = async function (ctx) {
    ctx.modify("metric", require("./modify/metric"));
    ctx.modify("pk", require("./modify/pk"));
 
+   ctx.modify("set_mixin", require("./modify/set_mixin"));
+   ctx.modify("database_modify", require("./modify/database_modify"));
+   ctx.modify("fix_schema", require("./modify/fix_schema"));
+
 
 
 
    //MODELS
-   ctx.models.set("model", await ctx.helpers.schemaFixer(require("./model/model.js")))
+   ctx.models.set("model", await ctx.helpers.schemaFixer(require("./model/model.js"))) // FAKE MODEL DECLARETION FOR NO ERROR
    ctx.models.get("model").methods = new Map()
    ctx.models.get("model").methods.set("post",()=>{})
 
@@ -81,10 +87,7 @@ module.exports = async function (ctx) {
    ctx.model(require("./model/admin.js"));
    ctx.model(require("./model/webhook.js"));
 
-   // IMPORTANT PLUGINS
 
-
-   //RULES
 
    // PLUGINS
    //await ctx.use(require("./defaults/plugin/file_storage"))

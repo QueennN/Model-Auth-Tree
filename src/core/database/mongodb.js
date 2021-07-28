@@ -1,6 +1,5 @@
-const mongoose = require("mongoose")
 module.exports = async function (ctx) {
-    ctx.database("mongodb", {
+    ctx.database( {
         name: "mongodb",
         pk: "_id",
         types: {
@@ -29,7 +28,7 @@ module.exports = async function (ctx) {
                 schema[f].type = this.types[model.schema[f].type];
             }
 
-            let Model = mongoose.model(model.name, new mongoose.Schema(schema, { versionKey: false }));
+            let Model = ctx.mongoose.model(model.name, new ctx.mongoose.Schema(schema, { versionKey: false }));
 
 
             model.methods.set("get", async function (payload, ctx) {

@@ -1,5 +1,5 @@
 module.exports = async function(ctx){
-    ctx.database("posgtre",{
+    ctx.database({
         name:"postgre",
         types:{},
         pk:"id",

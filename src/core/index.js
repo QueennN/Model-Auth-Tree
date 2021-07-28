@@ -14,6 +14,7 @@ module.exports = async function (ctx) {
    ctx.use(require('./database/mongodb'))
    ctx.use(require('./database/postgre'))
    ctx.use(require('./database/store'))
+   ctx.use(require('./database/nulldb'))
 
 
    ctx.store.set("secret", "secret");

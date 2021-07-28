@@ -1,5 +1,5 @@
 module.exports = async function(ctx){
-    ctx.database("cassandra",{
+    ctx.database({
         name:"cassandra",
         pk:"id",
         types:{},

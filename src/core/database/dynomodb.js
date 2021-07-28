@@ -1,5 +1,5 @@
 module.exports = async function(ctx){
-    ctx.database("dynomodb",{
+    ctx.database({
         name:"dynomodb",
         pk:"id",
         types:{},

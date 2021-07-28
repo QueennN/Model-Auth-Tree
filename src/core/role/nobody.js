@@ -1,3 +1,6 @@
-module.exports = function() {
-    return false
+module.exports = {
+    name: "nobody",
+    function: async function () {
+        return false
+    }
 }

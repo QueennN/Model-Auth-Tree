@@ -1,19 +1,23 @@
-module.exports = async function (payload, ctx) {
-   let model = ctx.models.get(payload.model);
-   let database = ctx.databases.get(model.database)
-   if (!ctx.lodash.has(payload, "attributes") || payload.attributes.length == 0) {
-      payload.attributes = ctx.lodash.keys(model.schema)
-   }
+module.exports = {
+   name: "attributes",
+   function: async function (payload, ctx) {
+      let model = ctx.models.get(payload.model);
+      let database = ctx.databases.get(model.database)
+      if (!ctx.lodash.has(payload, "attributes") || payload.attributes.length == 0) {
+         payload.attributes = ctx.lodash.keys(model.schema)
+      }
 
-   for (let field of payload.attributes) {
-      let roles = model.schema[field].read;
-      let show = true;
-      for (let role of roles) {
-         show = show && (await ctx.roles.get(role)(payload));
+      for (let field of payload.attributes) {
+         let roles = model.schema[field].read;
+         let show = true;
+         for (let role of roles) {
+            show = show && (await ctx.roles.get(role)(payload));
+         }
+         if (!show) {
+            payload.attributes = ctx.lodash.remove(payload.attributes, (f) => f != field);
+         }
       }
-      if (!show) {
-         payload.attributes = ctx.lodash.remove(payload.attributes, (f) => f != field);
-      }
+      payload.attributes = [database.pk].concat(payload.attributes)
    }
-   payload.attributes = [database.pk].concat(payload.attributes)
-};
+}
+

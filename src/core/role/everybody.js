@@ -1,3 +1,6 @@
-module.exports = function() {
-    return true
+module.exports = {
+    name: "everybody",
+    function: async function () {
+        return true
+    }
 }

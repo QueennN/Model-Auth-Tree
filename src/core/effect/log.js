@@ -1,5 +1,8 @@
-module.exports = async (payload, ctx) => {
-    console.log(
-        `[RESPONSE] ${payload.model} | ${payload.method} | [${payload.response.warnings}] | ${payload.response.status}`
-     );
-};
+module.exports = {
+    name:"log",
+    function:async (payload, ctx) => {
+        console.log(
+            `[RESPONSE] ${payload.model} | ${payload.method} | [${payload.response.warnings}] | ${payload.response.status}`
+         );
+    }
+}

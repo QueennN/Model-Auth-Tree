@@ -25,11 +25,11 @@ module.exports = {
         },
         post: {
             role: ["admin"],
-            effect: ["sync"],
+            effect: [],
         },
         delete: {
             role: ["admin"],
-            effect: ["sync"],
+            effect: [],
         },
         model: {
             role: ["everybody"],

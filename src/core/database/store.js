@@ -1,40 +1,40 @@
 module.exports = async function (ctx) {
-    ctx.database( {
+    ctx.database({
         name: "store",
         pk: "id",
         types: {
-            any:null,
-            object:Object,
-            string:String,
-            number:Number,
-            boolean:Boolean,
-            function:Function,
-            array:Array,
+            any: null,
+            object: Object,
+            string: String,
+            number: Number,
+            boolean: Boolean,
+            function: Function,
+            array: Array,
         },
         connect: async function () {
             console.log("Local store connected...");
         },
         modify: async function (model, ctx) {
-            model.methods.set("get", async function (payload, ctx) {
-                return ctx.lodash.find(ctx.store.get(payload.model), payload.query)
+            model.methods.set("get", async function (_payload, _ctx) {
+                return _ctx.lodash.find(_ctx.store.get(_payload.model), _payload.query)
             });
 
-            model.methods.set("getAll", async function (payload, ctx) {
-                return ctx.lodash.filter(ctx.store.get(payload.model), payload.query)
+            model.methods.set("getAll", async function (_payload, _ctx) {
+                return _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query)
             });
 
-            model.methods.set("post", async function (payload, ctx) {
-                payload.id = "mdb_" + ctx.uuid.v4()
-                ctx.store.get(payload.model).push(payload.body)
-                return payload.body
+            model.methods.set("post", async function (_payload, _ctx) {
+                _payload.body.id = "mdb_" + _ctx.uuid.v4()
+                _ctx.store.get(_payload.model).push(_payload.body)
+                return _payload.body
             });
 
-            model.methods.set("delete", async function (payload, ctx) {
-                ctx.store.set(payload.model, ctx.lodash.filter(ctx.store.get(payload.model), payload.query))
+            model.methods.set("delete", async function (_payload, _ctx) {
+                _ctx.store.set(_payload.model, _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query))
             });
 
-            model.methods.set("count", async function (payload, ctx) {
-                return ctx.lodash.filter(ctx.store.get(payload.model), payload.query).length
+            model.methods.set("count", async function (_payload, _ctx) {
+                return _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query).length
             });
         },
         mixin: [],

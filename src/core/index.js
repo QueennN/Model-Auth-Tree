@@ -1,5 +1,6 @@
 module.exports = async function (ctx) {
    ctx.store = new Map()
+   ctx.fastGet = require("../helpers/fast_get.js")
    ctx.store.set("secret", "secret");
    ctx.store.set("afters", ["metric", "log"]);
    ctx.store.set("befores", ["metric", "default_payload", "set_user"]);
@@ -52,7 +53,6 @@ module.exports = async function (ctx) {
    await ctx.role(require("./role/system"));
 
    //EFFECT
-   await ctx.effect(require("./effect/sync"));
    await ctx.effect(require("./effect/webhook"));
    await ctx.effect(require("./effect/log"));
    await ctx.effect(require("./effect/metric"));

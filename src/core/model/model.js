@@ -53,12 +53,12 @@ module.exports = {
       patch: {
          modify:["set_mixin","fix_schema","database_modify"],
          role: ["admin"],
-         effect: ["sync"],
+         effect: [],
       },
       post: {
          modify:["set_mixin","fix_schema","database_modify"],
          role: ["admin"],
-         effect: ["sync"],
+         effect: [],
       },
       delete: {
          role: ["admin"],

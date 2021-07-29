@@ -160,10 +160,9 @@ class Fookie {
    }
 
    async run(payload) {
-
       for (let b of this.store.get("befores")) {
-         console.log(b);
-         await this.modifies.get(b)(payload, this);
+         console.log(this.fastGet("modify", b, this));
+         await this.fastGet("modify", b, this).function(payload, this);
       }
       if (await preRule(payload, this)) {
          await modify(payload, this);

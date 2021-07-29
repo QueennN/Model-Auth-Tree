@@ -24,11 +24,11 @@ module.exports = {
       },
       patch: {
          role: ["admin"],
-         effect: ["sync"],
+         effect: [],
       },
       post: {
          role: ["admin"],
-         effect: ["sync"],
+         effect: [],
       },
       delete: {
          role: ["admin"],

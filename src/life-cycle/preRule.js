@@ -1,9 +1,6 @@
 module.exports = async function (payload, ctx) {
-   // gerçekten model ve method kontrolünden nefret ediyorum.düzelt buaryı
-   if (!(await ctx.rules.get("has_model")(payload, ctx))) return false
-   if (!(await ctx.rules.get("has_method")(payload, ctx))) return false
-
    let rules = ctx.helpers.defaultArrayCalc(payload, "preRule");
+   console.log(rules);
    if (rules.every((rule) => ctx.rules.has(rule))) {
       for (let rule of rules) {
          let start = Date.now()

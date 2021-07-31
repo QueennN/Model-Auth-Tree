@@ -1,5 +1,52 @@
 module.exports = async function (ctx) {
 
+
+
+
+   ctx.store.set("rule", new Map());
+   ctx.store.get("rule").methods = new Map()
+   ctx.store.get("rule").methods.set("post", () => { })
+   ctx.store.set("role", new Map());
+   ctx.store.get("role").methods = new Map()
+   ctx.store.get("role").methods.set("post", () => { })
+   ctx.store.set("effect", new Map());
+   ctx.store.get("effect").methods = new Map()
+   ctx.store.get("effect").methods.set("post", () => { })
+   ctx.store.set("modify", new Map());
+   ctx.store.get("modify").methods = new Map()
+   ctx.store.get("modify").methods.set("post", () => { })
+   ctx.store.set("filter", new Map());
+   ctx.store.get("filter").methods = new Map()
+   ctx.store.get("filter").methods.set("post", () => { })
+
+
+   ctx.store.set("secret", "secret");
+   ctx.store.set("afters", []); // "metric", "log"
+   ctx.store.set("befores", []); // "metric", "default_payload", "set_user"
+   ctx.use(require("../helpers/localGet.js")) 
+
+   await ctx.use(require("../helpers/after_before_calculater"));
+   await ctx.use(require("./plugin/health_check"));
+   await ctx.use(require("../helpers/default_life_cycle_controls"));
+   await ctx.use(require("./plugin/first_of_all"));
+ 
+   await ctx.use(require('./database/store'))
+   
+   await ctx.model(require("./model/menu.js"));
+   await ctx.model(require("./model/submenu.js"));
+   await ctx.model(require("./model/admin.js"));
+   await ctx.model(require("./model/webhook.js"));
+   await ctx.model(require('./model/role'))
+   await ctx.model(require('./model/rule'))
+   await ctx.model(require('./model/modify'))
+   await ctx.model(require('./model/effect'))
+   await ctx.model(require('./model/filter'))
+
+   
+
+
+
+
    // RULES
    await ctx.rule(require("./rule/has_field"));
    await ctx.rule(require("./rule/check_required"));
@@ -49,44 +96,24 @@ module.exports = async function (ctx) {
    await ctx.modify(require("./modify/set_mixin"));
    await ctx.modify(require("./modify/database_modify"));
    await ctx.modify(require("./modify/fix_schema"));
-   
-   ctx.store.set("secret", "secret");
-   ctx.store.set("afters", ["metric", "log"]);
-   ctx.store.set("befores", ["metric", "default_payload", "set_user"]);
+
    //MODELS
    ctx.store.set("model", await ctx.helpers.schemaFixer(require("./model/model.js"))) // FAKE MODEL DECLARETION FOR NO ERROR
    ctx.store.get("model").methods = new Map()
    ctx.store.get("model").methods.set("post", () => { })
    await ctx.model(require("./model/model.js"));
-
-console.log(1);
    // MIXIN
    await ctx.mixin("default_mixin", require("./mixin/default_mixin"))
+
+   //DATABASES
    await ctx.use(require('./database/cassandra'))
    await ctx.use(require('./database/dynomodb'))
    await ctx.use(require('./database/mongodb'))
    await ctx.use(require('./database/postgre'))
-   await ctx.use(require('./database/store'))
    await ctx.use(require('./database/nulldb'))
-   await ctx.use(require("../helpers/after_before_calculater"));
-   await ctx.use(require("./plugin/health_check"));
-   await ctx.use(require("../helpers/default_life_cycle_controls"));
-   await ctx.use(require("./plugin/first_of_all"));
 
 
    await ctx.use(require("./plugin/metric/index"));
-
-
-   await ctx.model(require("./model/menu.js"));
-   await ctx.model(require("./model/submenu.js"));
-   await ctx.model(require("./model/admin.js"));
-   await ctx.model(require("./model/webhook.js"));
-   await ctx.model(require('./model/role'))
-   await ctx.model(require('./model/rule'))
-   await ctx.model(require('./model/modify'))
-   await ctx.model(require('./model/effect'))
-   await ctx.model(require('./model/filter'))
-
 
 
    // PLUGINS

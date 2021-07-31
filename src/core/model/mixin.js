@@ -8,7 +8,7 @@ module.exports = {
             required:true,
             unique:true,
         },
-        object: {
+        value: {
             type:"object",
             required:true,
         },

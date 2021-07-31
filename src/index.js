@@ -88,54 +88,85 @@ class Fookie {
    }
 
    async mixin(declaration) {
-      this.mixins.set(declaration.name, declaration.object)
+      await this.run({
+         system: true,
+         model: "mixin",
+         method: "post",
+         body: declaration
+      })
    }
 
    async rule(declaration) {
-      this.rules.set(declaration.name, declaration.function)
+      await this.run({
+         system: true,
+         model: "rule",
+         method: "post",
+         body: declaration
+      })
    }
 
    async role(declaration) {
-      this.roles.set(declaration.name, declaration.function)
+      await this.run({
+         system: true,
+         model: "role",
+         method: "post",
+         body: declaration
+      })
    }
 
    async filter(declaration) {
-      this.filters.set(declaration.name, declaration.function)
+      await this.run({
+         system: true,
+         model: "filter",
+         method: "post",
+         body: declaration
+      })
    }
 
    async database(declaration) {
-      this.databases.set(declaration.name, declaration.object)
+      await this.run({
+         system: true,
+         model: "database",
+         method: "post",
+         body: declaration
+      })
    }
 
    async modify(declaration) {
-     let res = await this.run({
+      await this.run({
          system: true,
          model: "model",
-         method:"post",
-         body:declaration
-      }
-      )
-      console.log(res);
-      this.modifies.set(res.name, res)
+         method: "post",
+         body: declaration
+      })
    }
 
    async model(declaration) {
-      this.models.set(declaration.name, declaration.function)
+      await this.run({
+         system: true,
+         model: "model",
+         method: "post",
+         body: declaration
+      })
    }
 
    async effect(declaration) {
-      this.effects.set(declaration.name, declaration.function)
+      await this.run({
+         system: true,
+         model: "effect",
+         method: "post",
+         body: declaration
+      })
    }
 
    async run(payload) {
-      console.log(this.store);
       for (let b of this.store.get("befores")) {
-         await this.modifies.get(b)(payload, this);
+         await this.local.get("modify", b);
       }
       if (await preRule(payload, this)) {
          await modify(payload, this);
          if (await rule(payload, this)) {
-            payload.response.data = await this.models.get(payload.model).methods.get(payload.method)(payload, this);
+            payload.response.data = await this.local.get("model",payload.model).methods.get(payload.method)(payload, this);
             if (payload.response.status == 200) {
                await filter(payload, this);
                effect(payload, this);
@@ -161,14 +192,16 @@ class Fookie {
    }
 
    async connect(databaseName, config) {
-      await this.run({
+      let res = await this.run({
          system: true,
          model: "database",
          model: "get",
          query: {
             name: databaseName
          }
-      }).connect(config)
+      })
+
+      await res.data.connect(config)
    }
 
    async use(cb) {

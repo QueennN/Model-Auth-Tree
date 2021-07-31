@@ -8,7 +8,7 @@ module.exports = {
             required:true,
             unique:true,
         },
-        function: {
+        value: {
             type:"function",
             required:true,
         },

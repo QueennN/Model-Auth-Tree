@@ -5,9 +5,9 @@ module.exports = {
 
       if (roles.length == 0) return true;
 
-      if (roles.every((e) => ctx.roles.has(e))) {
+      if (roles.every((e) => ctx.local.has("role", e))) {
          for (let role of roles) {
-            let res = await ctx.roles.get(role)(payload, ctx);
+            let res = await ctx.local.get("role", role).function(payload, ctx);
             let modifies = [];
             if (res) {
                try {

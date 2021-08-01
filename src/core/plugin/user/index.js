@@ -2,9 +2,8 @@ const jwt = require("jsonwebtoken");
 const { sha512 } = require("js-sha512");
 
 module.exports = async function (ctx) {
-   ctx.local.set("model", require("./model/user"))
+   await ctx.model(require("./model/user"))
    let sys_user = ctx.local.get("model", "user")
-   console.log(sys_user.methods);
    sys_user.methods.set("login", async ({ body, response }, ctx) => {
       let { email, password } = body;
       let res = await ctx.run({

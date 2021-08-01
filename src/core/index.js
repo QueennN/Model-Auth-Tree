@@ -19,6 +19,7 @@ module.exports = async function (ctx) {
    ctx.use(require("./plugin/health_check"));
    ctx.use(require("../helpers/default_life_cycle_controls"));
    ctx.use(require("./plugin/first_of_all"));
+   ctx.use(require("./plugin/metric/index"));
 
 
    // RULES
@@ -72,15 +73,7 @@ module.exports = async function (ctx) {
    ctx.modify(require("./modify/fix_schema"));
 
    // MIXIN
-   ctx.mixin( require("./mixin/default_mixin"))
-
-   //local
-   ctx.local.set("model", ctx.helpers.schemaFixer(require("./model/model.js"))) // FAKE MODEL DECLARETION FOR NO ERROR
-   ctx.local.get("model", "model").methods = new Map()
-   ctx.local.get("model", "model").methods.set("post", () => { })
-   await ctx.model(require("./model/model.js"));
-
-
+   ctx.mixin(require("./mixin/default_mixin"))
 
    //DATABASES
    ctx.use(require('./database/store'))
@@ -90,8 +83,18 @@ module.exports = async function (ctx) {
    ctx.use(require('./database/postgre'))
    ctx.use(require('./database/nulldb'))
 
+   //local
+   let model = require("./model/model.js")
+   model.methods = new Map()
+   model.methods.set("post", () => {
+      throw Error("CORE ERRORED")
+   })
+   model.methods.set("count", () => {
+      throw Error("CORE ERRORED")
+   })
+   await ctx.model(model);
 
-   ctx.use(require("./plugin/metric/index"));
+
 
 
    //MODEL

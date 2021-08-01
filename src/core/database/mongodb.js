@@ -1,4 +1,4 @@
-module.exports = async function (ctx) {
+module.exports = function (ctx) {
     ctx.database( {
         name: "mongodb",
         pk: "_id",

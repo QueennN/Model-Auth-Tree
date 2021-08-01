@@ -4,12 +4,13 @@ module.exports = {
    function: async function (payload, ctx) {
       let model = ctx.local.get("model",payload.model);
       let fields = ctx.lodash.keys(payload.body);
+      
       for (let field of fields) {
          if (model.schema[field].unique) {
             let res = await ctx.run({
                system: true,
-               method: "count",
                model: payload.model,
+               method: "count",
                query: {
                   [field]: payload.body[field],
                },

@@ -1,4 +1,4 @@
-module.exports = async function(ctx){
+module.exports = function(ctx){
     ctx.database({
         name:"dynomodb",
         pk:"id",

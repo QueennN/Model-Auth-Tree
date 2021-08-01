@@ -4,12 +4,16 @@ module.exports = async function (ctx) {
             return ctx.lodash.find(ctx.store.get(model), { name })
         },
         has: function (model, name) {
-            return true
             return ctx.lodash.has(ctx.store.get(model), { name })
         },
-        set: function (model,declaration) {
+        set: function (model, declaration) {
+            this.delete(model,declaration.name)
             return ctx.store.get(model).push(declaration)
         },
+        delete: function (model, name) {
+            ctx.store.set(model, ctx.lodash.filter(ctx.store.get(model), a => a.name != name))
+        },
+
 
     }
 }

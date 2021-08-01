@@ -1,10 +1,9 @@
 module.exports = {
    name: "database_modify",
    function:async function (payload, ctx) {
-      console.log(1);
       payload.body.methods = new Map();
       ctx.local.get("database",payload.body.database).modify(payload.body, ctx)
-   
+     
       payload.body.methods.set("model", async function (_payload, _ctx) {
          return JSON.parse(JSON.stringify(_payload.body))
       });

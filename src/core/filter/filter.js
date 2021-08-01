@@ -10,7 +10,7 @@ module.exports = {
          let roles = model.schema[field][type]
          let show = true;
          for (let role of roles) {
-            show = show && (await ctx.roles.get(role)(payload, ctx));
+            show = show && (await ctx.local.get("role",role)(payload, ctx));
          }
          if (!show) {
             delete payload.response.data.schema[field];

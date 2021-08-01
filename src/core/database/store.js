@@ -1,7 +1,7 @@
-module.exports = async function (ctx) {
+module.exports = function (ctx) {
     ctx.database({
         name: "store",
-        pk: "id",
+        pk: "name",
         types: {
             any: null,
             object: Object,

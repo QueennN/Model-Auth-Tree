@@ -1,4 +1,4 @@
-module.exports = async function (ctx) { // kappa xd
+module.exports = function (ctx) { // kappa xd
     ctx.database({
         name: "nulldb",
         pk: Error(),

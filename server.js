@@ -7,4 +7,5 @@ const Fookie = require("./src");
    });
 
    await fookie.listen(2626);
-})();
+})
+();

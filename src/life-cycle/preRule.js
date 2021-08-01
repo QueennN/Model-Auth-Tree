@@ -1,6 +1,5 @@
 module.exports = async function (payload, ctx) {
    let rules = ctx.helpers.defaultArrayCalc(payload, "preRule");
-   console.log(payload.model);
    if (rules.every((rule) => ctx.local.has("rule", rule))) {
       for (let rule of rules) {
          let start = Date.now()
@@ -13,6 +12,7 @@ module.exports = async function (payload, ctx) {
       }
       return true;
    } else {
+      console.log(ctx.local.has("rule", "has_method"));
       payload.response.warnings.push(`Missing preRule`, ctx.lodash.remove(rules, r => ctx.local.has(r)));
       return false
    }

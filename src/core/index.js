@@ -92,25 +92,29 @@ module.exports = async function (ctx) {
    model.methods.set("count", () => {
       throw Error("CORE ERRORED")
    })
-   await ctx.model(model);
+   ctx.local.set("model", ctx.helpers.schemaFixer(model));
+   await ctx.model(ctx.helpers.schemaFixer(model));
+
+
+
 
 
 
 
    //MODEL
-   ctx.model(require("./model/menu.js"));
-   ctx.model(require("./model/submenu.js"));
-   ctx.model(require("./model/admin.js"));
-   ctx.model(require("./model/webhook.js"));
-   ctx.model(require('./model/role'))
-   ctx.model(require('./model/rule'))
-   ctx.model(require('./model/modify'))
-   ctx.model(require('./model/effect'))
-   ctx.model(require('./model/filter'))
+   
+   await ctx.model(require("./model/menu.js"));
+   await ctx.model(require("./model/submenu.js"));
+   await ctx.model(require("./model/admin.js"));
+   await ctx.model(require("./model/webhook.js"));
+   await ctx.model(require('./model/role'))
+   await ctx.model(require('./model/rule'))
+   await ctx.model(require('./model/modify'))
+   await ctx.model(require('./model/effect'))
+   await ctx.model(require('./model/filter'))
 
 
    // PLUGINS
    //ctx.use(require("./defaults/plugin/file_storage")) USE S3 NOT multer xd
-
    ctx.use(require("./plugin/user"));
 };

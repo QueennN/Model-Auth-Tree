@@ -12,7 +12,7 @@ module.exports = async function (ctx) {
 
    ctx.store.set("secret", "secret");
    ctx.store.set("afters", ["metric", "log"]);
-   ctx.store.set("befores", ["default_payload", "metric", "set_user"]);
+   ctx.store.set("befores", ["default_payload", "metric"]);
    ctx.use(require("../helpers/localGet.js"))
 
    ctx.use(require("../helpers/after_before_calculater"));
@@ -116,5 +116,5 @@ module.exports = async function (ctx) {
 
    // PLUGINS
    //ctx.use(require("./defaults/plugin/file_storage")) USE S3 NOT multer xd
-   ctx.use(require("./plugin/user"));
+   //ctx.use(require("./plugin/user"));
 };

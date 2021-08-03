@@ -1,6 +1,6 @@
 module.exports = async function (ctx) {
 
-   ctx.store.set("system_token",process.env.SYSTEM_TOKEN || "admin")
+   ctx.store.set("system_token", process.env.SYSTEM_TOKEN || "admin")
    ctx.store.set("model", []);
    ctx.store.set("mixin", []);
    ctx.store.set("database", []);
@@ -61,7 +61,7 @@ module.exports = async function (ctx) {
    //MODIFIES
    ctx.modify(require("./modify/password"));
    ctx.modify(require("./modify/set_default"));
-   ctx.modify(require("./modify/set_target"));
+   ctx.modify(require("./modify/set_target")); // LA BU çok tartışmalı iyi düşün.
    ctx.modify(require("./modify/set_user"));
    ctx.modify(require("./modify/default_payload"));
    ctx.modify(require("./modify/increase"));
@@ -86,27 +86,25 @@ module.exports = async function (ctx) {
    ctx.use(require('./database/nulldb'))
 
    //local
-   let model = require("./model/model.js")
+   const model = require("./model/model.js")
 
    model.methods = new Map()
-   model.methods.set("post", () => {
-      throw Error("CORE ERRORED")
-   })
-   model.methods.set("count", () => {
-      throw Error("CORE ERRORED")
-   })
-   model.version = "mock"
+   model.methods.set("post", () => { throw Error("CORE ERRORED") })
+   model.methods.set("patch", () => { throw Error("CORE ERRORED") })
+   model.methods.set("count", () => { throw Error("CORE ERRORED") })
+
    ctx.local.set("model", ctx.helpers.schemaFixer(ctx.lodash.cloneDeep(model)));
-   model.version = null
-   await ctx.model(ctx.helpers.schemaFixer(ctx.lodash.cloneDeep(model)));
 
-
-
-
+   await ctx.run({
+      system: true,
+      model: "model",
+      method: "patch",
+      body: model
+   })
 
 
    //MODEL
-   
+
    await ctx.model(require("./model/menu.js"));
    await ctx.model(require("./model/submenu.js"));
    await ctx.model(require("./model/admin.js"));

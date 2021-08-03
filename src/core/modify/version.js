@@ -5,8 +5,10 @@ module.exports = {
          payload.query.version = ctx.package.version;
       }
       if (payload.method == "post") {
-         if (typeof payload.body.version != "string") {
+         if (!ctx.lodash.has(payload.body, "version")) {
             payload.body.version = ctx.package.version;
+         }else{
+            console.log(payload);
          }
       }
    }

@@ -68,11 +68,11 @@ module.exports = async function (ctx) {
       },
       patch: {
          modify: {
-            before: ["set_target"],
+            before: [],
             after: ["attributes","pk"],
          },
          rule: {
-            before: ["need_target", "has_field", "check_type", "check_required", "field_control", "unique"],
+            before: ["has_field", "check_type", "check_required", "field_control", "unique"],
             after: ["check_auth"],
          },
          preRule: {
@@ -90,11 +90,11 @@ module.exports = async function (ctx) {
       },
       delete: {
          modify: {
-            before: ["set_target"],
+            before: [],
             after: ["pk"],
          },
          rule: {
-            before: ["need_target"],
+            before: [],
             after: ["check_auth"],
          },
          preRule: {

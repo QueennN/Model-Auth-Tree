@@ -1,5 +1,5 @@
 module.exports = {
-   //TODO BÖYLE BİŞE YOK
+   //TODO BÖYLE BİŞE YOK. SİSTEME EKLİ DEĞİL
    name: "set_default_modify",
    function: async function (payload, ctx) {
       let keys = ctx.lodash.keys(ctx.local.get("model",payload.model).schema);

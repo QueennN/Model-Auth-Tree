@@ -29,6 +29,8 @@ module.exports = {
          input: "json",
          required: true,
          type: "object",
+         read:[],
+         write:["everybody"]
       },
       methods:{
          input:"json",
@@ -46,25 +48,22 @@ module.exports = {
    lifecycle: {
       get: {
          role: ["everybody"],
+         filter:["filter"]
       },
       getAll: {
          role: ["everybody"],
+         filter:["filter"]
       },
       patch: {
          modify:["set_mixin","fix_schema","database_modify"],
          role: ["admin"],
-         effect: [],
       },
       post: {
          modify:["set_mixin","fix_schema","database_modify"],
          role: ["admin"],
-         effect: [],
       },
       delete: {
          role: ["admin"],
-      },
-      model: {
-         role: [],
       },
       count: {
          role: ["admin"],

@@ -132,28 +132,6 @@ module.exports = async function (ctx) {
             after: [],
          },
       },
-      model: {
-         modify: {
-            before: [],
-            after: ["attributes"],
-         },
-         rule: {
-            before: [],
-            after: ["check_auth"],
-         },
-         preRule: {
-            before: ["has_model", "has_method"],
-            after: [],
-         },
-         filter: {
-            before: [],
-            after: ["filter"],
-         },
-         effect: {
-            before: [],
-            after: [],
-         },
-      },
       test: {
          modify: {
             before: [],

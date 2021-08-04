@@ -4,10 +4,6 @@ module.exports = {
       payload.body.methods = new Map();
       ctx.local.get("database", payload.body.database).modify(payload.body, ctx)
 
-      payload.body.methods.set("model", async function (_payload, _ctx) {
-         return _ctx.lodash.cloneDeep(_payload.body)
-      });
-
       payload.body.methods.set("test", async function (_payload, _ctx) {
          _payload.method = _payload.options.method + '';
          for (let b of _ctx.store.get("befores")) {

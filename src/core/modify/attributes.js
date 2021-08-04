@@ -3,6 +3,7 @@ module.exports = {
    function: async function (payload, ctx) {
       let model = ctx.local.get("model", payload.model);
       let database = ctx.local.get("database", model.database)
+
       if (!ctx.lodash.has(payload, "attributes") || payload.attributes.length == 0) {
          payload.attributes = ctx.lodash.keys(model.schema)
       }

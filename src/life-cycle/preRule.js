@@ -8,7 +8,7 @@ module.exports = async function (payload, ctx) {
    } else {
       payload.response.warnings.push("Missing model")
       return false
-   } // TODO Bu yöntemden kurtul.
+   }
 
    let rules = ctx.helpers.defaultArrayCalc(payload, "preRule");
    if (rules.every((rule) => ctx.local.has("rule", rule))) {

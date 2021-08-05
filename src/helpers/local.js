@@ -7,13 +7,11 @@ module.exports = async function (ctx) {
             return ctx.lodash.filter(ctx.store.get(model), { name }).length > 0
         },
         set: function (model, declaration) {
-            this.delete(model,declaration.name)
-            return ctx.store.get(model).push(declaration)
+            ctx.store.get(model).push(declaration)
+            return declaration
         },
         delete: function (model, name) {
             ctx.store.set(model, ctx.lodash.filter(ctx.store.get(model), a => a.name != name))
         },
-
-
     }
 }

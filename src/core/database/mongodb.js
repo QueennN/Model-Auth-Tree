@@ -1,16 +1,36 @@
 module.exports = function (ctx) {
-    ctx.database( {
+    ctx.database({
         name: "mongodb",
         pk: "_id",
         types: {
-            string: ctx.mongoose.Schema.Types.String,
-            number: ctx.mongoose.Schema.Types.Number,
-            date: ctx.mongoose.Schema.Types.Date,
-            buffer: ctx.mongoose.Schema.Types.Buffer,
-            boolean: ctx.mongoose.Schema.Types.Boolean,
-            object: ctx.mongoose.Schema.Types.Mixed,
-            _id: ctx.mongoose.Schema.Types.ObjectId,
-            array: ctx.mongoose.Schema.Types.Array
+            any: {
+                type: ctx.mongoose.Schema.Types.Mixed,
+                controller: () => true
+            },
+            _id: {
+                type: ctx.mongoose.Schema.Types.ObjectId,
+                controller: ctx.lodash.isString
+            },
+            object: {
+                type: ctx.mongoose.Schema.Types.Mixed,
+                controller: ctx.lodash.isObject
+            },
+            string: {
+                type: ctx.mongoose.Schema.Types.String,
+                controller: ctx.lodash.isString
+            },
+            number: {
+                type: ctx.mongoose.Schema.Types.Number,
+                controller: ctx.lodash.isNumber
+            },
+            boolean: {
+                type: ctx.mongoose.Schema.Types.Boolean,
+                controller: ctx.lodash.isBoolean
+            },
+            array: {
+                type: ctx.mongoose.Schema.Types.Array,
+                controller: ctx.lodash.isArray
+            },
         },
         connect: async function (config) {
             await ctx.mongoose.connect(config.url, config.options);
@@ -25,11 +45,9 @@ module.exports = function (ctx) {
                 if (!ctx.lodash.keys(this.types).includes(model.schema[f].type)) {
                     throw Error(`Invalid Type: ${model.schema[f].type} Model: ${model.name}`);
                 }
-                schema[f].type = this.types[model.schema[f].type];
+                schema[f].type = this.types[model.schema[f].type].type;
             }
-
             let Model = ctx.mongoose.model(model.name, new ctx.mongoose.Schema(schema, { versionKey: false }));
-
 
             model.methods.set("get", async function (payload, ctx) {
                 let res = await Model.findOne(payload.query, payload.attributes, payload.projection).lean();
@@ -47,8 +65,8 @@ module.exports = function (ctx) {
                 let res = await Model.deleteMany(payload.query);
                 return res;
             });
-            model.methods.set("patch", async function (payload, ctx) {              
-                return   await Model.updateMany(payload.query, payload.body);
+            model.methods.set("patch", async function (payload, ctx) {
+                return await Model.updateMany(payload.query, payload.body);
             });
 
             model.methods.set("count", async function (payload, ctx) {

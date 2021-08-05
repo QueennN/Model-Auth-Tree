@@ -3,13 +3,38 @@ module.exports = function (ctx) {
         name: "store",
         pk: "name",
         types: {
-            any: null,
-            object: Object,
-            string: String,
-            number: Number,
-            boolean: Boolean,
-            function: Function,
-            array: Array,
+            any: {
+                type: null,
+                controller: () => true
+            },
+            id: {
+                type: String,
+                controller: ctx.lodash.isString
+            },
+            object: {
+                type: Object,
+                controller: ctx.lodash.isObject
+            },
+            string: {
+                type: String,
+                controller: ctx.lodash.isString
+            },
+            number: {
+                type: Number,
+                controller: ctx.lodash.isNumber
+            },
+            boolean: {
+                type: Boolean,
+                controller: ctx.lodash.isBoolean
+            },
+            function: {
+                type: Function,
+                controller: ctx.lodash.isFunction
+            },
+            array: {
+                type: Array,
+                controller: ctx.lodash.isArray
+            },
         },
         connect: async function () {
             console.log("Local store connected...");

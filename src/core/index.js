@@ -1,28 +1,21 @@
 module.exports = async function (ctx) {
-
    ctx.store.set("system_token", process.env.SYSTEM_TOKEN || "admin")
-   ctx.store.set("model", []);
-   ctx.store.set("mixin", []);
-   ctx.store.set("database", []);
-   ctx.store.set("rule", []);
-   ctx.store.set("role", []);
-   ctx.store.set("effect", []);
-   ctx.store.set("modify", []);
-   ctx.store.set("filter", []);
-
-
-
+   ctx.store.set("model", [])
+   ctx.store.set("mixin", [])
+   ctx.store.set("database", [])
+   ctx.store.set("rule", [])
+   ctx.store.set("role", [])
+   ctx.store.set("effect", [])
+   ctx.store.set("modify", [])
+   ctx.store.set("filter", [])
    ctx.store.set("secret", "secret");
    ctx.store.set("afters", ["metric", "log"]);
    ctx.store.set("befores", ["default_payload", "metric"]); // TODO set user
-   ctx.use(require("../helpers/localGet.js"))
-
+   ctx.use(require("../helpers/local.js"))
    ctx.use(require("../helpers/after_before_calculater"));
    ctx.use(require("./plugin/health_check"));
    ctx.use(require("../helpers/default_life_cycle_controls"));
-   ctx.use(require("./plugin/first_of_all"));
    ctx.use(require("./plugin/metric/index"));
-
 
    // RULES
    ctx.rule(require("./rule/has_field"));
@@ -69,7 +62,6 @@ module.exports = async function (ctx) {
    ctx.modify(require("./modify/version"));
    ctx.modify(require("./modify/metric"));
    ctx.modify(require("./modify/pk"));
-
    ctx.modify(require("./modify/set_mixin"));
    ctx.modify(require("./modify/database_modify"));
    ctx.modify(require("./modify/fix_schema"));
@@ -85,26 +77,22 @@ module.exports = async function (ctx) {
    ctx.use(require('./database/postgre'))
    ctx.use(require('./database/nulldb'))
 
-   //local
+   //-----TRICKY SET
    const model = require("./model/model.js")
-
    model.methods = new Map()
    model.methods.set("post", () => { throw Error("CORE ERRORED") })
    model.methods.set("patch", () => { throw Error("CORE ERRORED") })
    model.methods.set("count", () => { throw Error("CORE ERRORED") })
-
    ctx.local.set("model", ctx.helpers.schemaFixer(ctx.lodash.cloneDeep(model)));
-
    await ctx.run({
       system: true,
       model: "model",
       method: "patch",
       body: model
    })
-
+   //-----TRICKY SET
 
    //MODEL
-
    await ctx.model(require("./model/menu.js"));
    await ctx.model(require("./model/submenu.js"));
    await ctx.model(require("./model/admin.js"));
@@ -114,7 +102,6 @@ module.exports = async function (ctx) {
    await ctx.model(require('./model/modify'))
    await ctx.model(require('./model/effect'))
    await ctx.model(require('./model/filter'))
-
 
    // PLUGINS
    //ctx.use(require("./defaults/plugin/file_storage")) USE S3 NOT multer xd

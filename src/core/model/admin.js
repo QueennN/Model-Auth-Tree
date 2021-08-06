@@ -17,7 +17,7 @@ module.exports = {
       update: {
          role: ["admin"],
       },
-      post: {
+      update: {
          role: ["admin"],
       },
       delete: {

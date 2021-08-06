@@ -4,9 +4,7 @@
     "description": "Life cycle base web application builder.",
     "main": "./src/index.js",
     "scripts": {
-        "build": "babel src -d lib",
-        "babel-node": "babel-node",
-        "server": "node ./index.js"
+        "server": "node ./server.js"
     },
     "repository": {
         "type": "git",

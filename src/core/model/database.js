@@ -16,7 +16,7 @@ module.exports = {
             type:"object",
         },
         connect: {
-            type:"function",            
+            type:"function",         
         },
         modify: {
             type:"function",
@@ -36,7 +36,7 @@ module.exports = {
         update: {
             role: ["admin"],
         },
-        post: {
+        update: {
             role: ["admin"],
         },
         delete: {

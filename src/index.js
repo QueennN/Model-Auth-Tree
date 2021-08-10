@@ -166,7 +166,7 @@ class Fookie {
    }
 
    async fuzzer(times) {
-      //TODO lodash product kullanabilirsin
+      // lodash product kullanabilirsin
       let version = this.package.version
       this.package.version = "test"
       for (let i = 0; i < times; i++) {

@@ -152,11 +152,11 @@ class Fookie {
       await database.connect(config)
    }
 
-   use(cb) {
-      cb(this);
+   async use(cb) {
+      await cb(this);
    }
 
-   async core() {
+   async core() { 
       await this.use(core);
    }
    listen(port) {

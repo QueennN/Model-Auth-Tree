@@ -2,6 +2,7 @@ module.exports = function (ctx) {
     ctx.database({
         name: "mongodb",
         pk: "_id",
+        url:"",
         types: {
             any: {
                 type: ctx.mongoose.Schema.Types.Mixed,

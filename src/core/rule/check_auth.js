@@ -2,9 +2,7 @@ module.exports = {
    name: "check_auth",
    function: async function (payload, ctx) {
       let roles = ["system"].concat(ctx.helpers.defaultArrayCalc(payload, "role"))
-
       if (roles.length == 0) return true;
-
       if (roles.every((e) => ctx.local.has("role", e))) {
          for (let role of roles) {
             let res = await ctx.local.get("role", role).function(payload, ctx);
@@ -19,9 +17,7 @@ module.exports = {
                   payload.response.warnings.push(`Rejected Role found. Payload manupilated.: ${role}`);
                }
                await Promise.all(modifies.map((m) => ctx.local.get("modify", m)(payload, ctx)));
-            }
-
-            
+            }            
          }
          return true;
       } else {

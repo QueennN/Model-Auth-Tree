@@ -1,13 +1,10 @@
 module.exports = {
    name: "set_default",
    function: async function (payload, ctx) {
-      let keys = ctx.lodash.keys(ctx.local.get("model",payload.model).schema);
-      keys = keys.filter((k) => ctx.local.get("model",payload.model).schema[k].default);
-      keys.forEach((k) => {
-         if (payload.body[k] == undefined) {
-            payload.body[k] = ctx.local.get("model",payload.model).schema[k].default;
-         }
-      });
+      let model = ctx.local.get("model", payload.model)
+      let defaults = ctx.lodash.mapValues(model.schema, o => o.default)
+      defaults = ctx.lodash.pickBy(defaults, v => !ctx.lodash.isUndefined(v))
+      payload.body = ctx.lodash.defaults(payload.body, defaults)
    }
 }
 

@@ -13,6 +13,7 @@ module.exports = {
          input: "text",
          required: true,
          type: "string",
+         default:"store"
       },
       display: {
          input: "text",
@@ -35,11 +36,13 @@ module.exports = {
       methods: {
          input: "json",
          type: "object",
-         write: ["nobody"]
+         write: ["nobody"],
+         default:{}
       },
       mixin: {
          input: "json",
          type: "array",
+         default:[]
       },
       version: {
          type: "string",

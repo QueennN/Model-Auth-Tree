@@ -9,7 +9,7 @@ module.exports = async function (ctx) {
    ctx.store.set("modify", [])
    ctx.store.set("filter", [])
    ctx.store.set("secret", "secret");
-   ctx.store.set("afters", ["metric", "log"]);
+   ctx.store.set("afters", ["log", "metric"]);
    ctx.store.set("befores", ["default_payload", "metric"]); // TODO set user
    await ctx.use(require("../helpers/local.js"))
    await ctx.use(require("../helpers/after_before_calculater"));

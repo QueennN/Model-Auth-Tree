@@ -13,7 +13,7 @@ module.exports = async function (ctx) {
    ctx.store.set("befores", ["default_payload", "metric"]); // TODO set user
    await ctx.use(require("../helpers/local.js"))
    await ctx.use(require("../helpers/after_before_calculater"));
-   await ctx.use(require("./plugin/health_check"));
+   //await ctx.use(require("./plugin/health_check"));
    await ctx.use(require("./plugin/metric/index"));
 
    // RULES
@@ -75,11 +75,11 @@ module.exports = async function (ctx) {
 
    //DATABASES
    await ctx.use(require('./database/store'))
-   await ctx.use(require('./database/cassandra'))
-   await ctx.use(require('./database/dynomodb'))
-   await ctx.use(require('./database/mongodb'))
-   await ctx.use(require('./database/postgre'))
-   await ctx.use(require('./database/nulldb'))
+   //await ctx.use(require('./database/cassandra'))
+   //await ctx.use(require('./database/dynomodb'))
+   //await ctx.use(require('./database/mongodb'))
+   //await ctx.use(require('./database/postgre'))
+   //await ctx.use(require('./database/nulldb'))
 
    //-----TRICKY SET
    const model = require("./model/model.js")
@@ -102,10 +102,10 @@ module.exports = async function (ctx) {
    //-----TRICKY SET
 
    //MODEL
-   await ctx.model(require("./model/menu.js"));
-   await ctx.model(require("./model/submenu.js"));
+   //await ctx.model(require("./model/menu.js"));
+   //await ctx.model(require("./model/submenu.js"));
    await ctx.model(require("./model/admin.js"));
-   await ctx.model(require("./model/webhook.js"));
+   //await ctx.model(require("./model/webhook.js"));
    await ctx.model(require('./model/role.js'))
    await ctx.model(require('./model/rule.js'))
    await ctx.model(require('./model/modify.js'))

@@ -57,7 +57,7 @@ module.exports = async function (ctx) {
    await ctx.modify(require("./modify/merge_lifecycle"));
    await ctx.modify(require("./modify/password"));
    await ctx.modify(require("./modify/set_default"));
-   await ctx.modify(require("./modify/set_user"));
+   //await ctx.modify(require("./modify/set_user"));
    await ctx.modify(require("./modify/default_payload"));
    await ctx.modify(require("./modify/increase"));
    await ctx.modify(require("./modify/attributes"));
@@ -87,7 +87,8 @@ module.exports = async function (ctx) {
    model.methods.set("update", async function (_payload, _ctx) { _ctx.local.set("model", _payload.body) })
    model.methods.set("create", async function (_payload, _ctx) { _ctx.local.set("model", _payload.body) })
    model.methods.set("count", async function (_payload, _ctx) { return 0 })
-   ctx.local.set("model", ctx.helpers.schemaFixer(ctx.lodash.cloneDeep(model)));
+
+   ctx.local.set("model", ctx.helpers.schemaFixer(ctx.lodash.assign({}, model)));
    model.name = "model2"
    await ctx.run({
       system: true,
@@ -99,6 +100,8 @@ module.exports = async function (ctx) {
    mdl.name = "model"
    ctx.local.set("model", mdl)
    ctx.local.delete("model", "model2")
+
+
    //-----TRICKY SET
 
    //MODEL

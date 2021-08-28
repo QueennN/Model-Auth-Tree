@@ -49,6 +49,8 @@ module.exports = function (ctx) {
             });
 
             model.methods.set("create", async function (_payload, _ctx) {
+                if(_payload.body.name =="model2")
+                    console.log(_payload.body);
                 _ctx.store.get(_payload.model).push(_payload.body)
                 return _payload.body
             });
@@ -67,6 +69,7 @@ module.exports = function (ctx) {
                 _ctx.store.set(_payload.model, pool)
                 return true
             });
+
             model.methods.set("delete", async function (_payload, _ctx) {
                 let pool = _ctx.store.get(_payload.model)
                 let rejected = _ctx.lodash.reject(pool, _payload.query)

@@ -1,6 +1,19 @@
 var assert = require('assert');
-  describe('#indexOf()', function() {
-    it('should return -1 when the value is not present', function() {
-      assert.equal([1, 2, 3].indexOf(4), -1);
+
+describe('Fookie model get flow', function () {
+    it('get flow', async function () {
+        const Fookie = require("../src/index")
+        const fookie = new Fookie()
+        await fookie.core()
+        let res = await fookie.run({
+            system: true,
+            model: "model",
+            method: "get",
+            query: {
+                name: "model"
+            }
+        })
+        assert.equal(res.status, 200)
+        assert.equal(res.data.name, "model")
     });
 });

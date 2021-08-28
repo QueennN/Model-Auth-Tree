@@ -4,7 +4,6 @@ module.exports = {
    function: async function (payload, ctx) {
       let model = ctx.local.get("model", payload.model);
       let fields = ctx.lodash.keys(payload.body);
-
       for (let field of fields) {
          if (model.schema[field].unique) {
             let res = await ctx.run({
@@ -15,10 +14,13 @@ module.exports = {
                   [field]: payload.body[field],
                },
             });
-            if (res.data > 0) payload.response.warnings.push("not unique: " + field);
-            return res.data == 0;
+            if (res.data > 0) {
+               payload.response.warnings.push("not unique: " + field);
+               return false
+            }
          }
       }
+      return true
    }
 }
 

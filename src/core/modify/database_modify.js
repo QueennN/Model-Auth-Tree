@@ -16,9 +16,6 @@ module.exports = {
             }
          }
          return false;
-      });
-
-
-      
+      });   
    }
 }

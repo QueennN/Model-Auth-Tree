@@ -4,7 +4,7 @@
     "description": "idk.",
     "main": "./src/index.js",
     "scripts": {
-        "test": "mocha"
+        "test": "mocha --dry-run"
     },
     "repository": {
         "type": "git",

@@ -116,6 +116,8 @@ module.exports = async function (ctx) {
    await ctx.model(require('./model/filter.js'))
    await ctx.model(require('./model/setting.js'))
    await ctx.model(require('./model/lifecycle.js'))
+   await ctx.model(require('./model/mixin.js'))
+   await ctx.model(require('./model/database.js'))
 
 
 

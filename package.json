@@ -4,7 +4,7 @@
     "description": "idk.",
     "main": "./src/index.js",
     "scripts": {
-        "test": "node ./server.js"
+        "test": "mocha"
     },
     "repository": {
         "type": "git",
@@ -21,5 +21,8 @@
         "js-sha512": "^0.8.0",
         "moment": "^2.29.1",
         "validate.js": "^0.13.1"
+    },
+    "devDependencies": {
+        "mocha": "^9.1.0"
     }
 }

@@ -163,6 +163,8 @@ describe('FOOKIE JS ', async function () {
 
 
 
+
+
   it('Lifecycle models', async function () {
     assert.equal(fookie.local.has("model", "rule"), true)
     assert.equal(fookie.local.has("model", "role"), true)
@@ -172,4 +174,37 @@ describe('FOOKIE JS ', async function () {
     assert.equal(fookie.local.has("model", "database"), true)
     assert.equal(fookie.local.has("model", "filter"), true)
   });
+
+
+  it('Count return value must be number', async function () {
+    let res = await fookie.run({
+      system: true,
+      model: "model",
+      method: "count",
+    })
+    assert.equal(typeof res.data, "number")
+  });
+
+
+
+
+  it('Simplified must be array', async function () {
+    let res = await fookie.run({
+      system: true,
+      model: "model",
+      method: "get",
+      options: {
+        simplified: true
+      }
+    })
+    assert.equal(lodash.isArray(res.data), true)
+  });
+
+
+
+
+
+
+
+
 });

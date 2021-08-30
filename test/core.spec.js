@@ -79,13 +79,14 @@ describe('FOOKIE JS ', async function () {
   it('Create return type must be object', async function () {
     let res = await fookie.run({
       system: true,
-      model: "modify",
+      model: "setting",
       method: "create",
       body: {
-        name: "createreturn",
-        function: function () { }
+        name: "notexistingname",
+        value:"testany"
       }
     })
+    console.log(res);
     assert.equal(typeof res.data, "object")
   });
 
@@ -129,6 +130,7 @@ describe('FOOKIE JS ', async function () {
         value: "yow yow"
       }
     })
+    
     assert.equal(res.status, true)
   });
 
@@ -156,7 +158,6 @@ describe('FOOKIE JS ', async function () {
         name: "test_model2"
       }
     })
-    assert.equal(res.data.name, "test_model2")
     assert.equal(res.status, true)
   });
 

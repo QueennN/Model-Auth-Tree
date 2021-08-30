@@ -1,7 +1,7 @@
 module.exports = {
    name: "submenu",
    database:"store",
-   display: "_id",
+   display: "name",
    schema: {
       model: {
          relation: "model",

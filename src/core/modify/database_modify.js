@@ -1,9 +1,10 @@
 module.exports = {
    name: "database_modify",
-   function: async function (payload, ctx) {
+   function: async function (payload, ctx) { //todo aslında burası effect olmalı ama mlsf
       payload.body.methods = new Map();
-      await ctx.local.get("database", payload.body.database).modify(payload.body, ctx)
-
+      if (ctx.lodash.has(payload.body, "database")) {// updated for update method.
+         await ctx.local.get("database", payload.body.database).modify(payload.body, ctx)
+      }
       payload.body.methods.set("test", async function (_payload, _ctx) {
          _payload.method = _payload.options.method + '';
          for (let b of _ctx.store.get("befores")) {
@@ -16,6 +17,6 @@ module.exports = {
             }
          }
          return false;
-      });   
+      });
    }
 }

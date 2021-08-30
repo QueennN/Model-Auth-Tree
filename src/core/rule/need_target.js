@@ -7,7 +7,6 @@ module.exports = {
          method:"count",
          query:payload.query
       })
-      console.log(res);
      return res.data > 0
    }
 }

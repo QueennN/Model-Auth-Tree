@@ -49,18 +49,15 @@ module.exports = function (ctx) {
             });
 
             model.methods.set("create", async function (_payload, _ctx) {
-                if (_payload.body.name == "model2")
-                    console.log(_payload.body);
                 _ctx.store.get(_payload.model).push(_payload.body)
                 return _payload.body
+
             });
 
             model.methods.set("update", async function (_payload, _ctx) {
                 let pool = _ctx.store.get(_payload.model)
                 let database = _ctx.local.get("database", model.database)
                 let ids = _ctx.lodash.filter(pool, _payload.query).map(i => i[database.pk])
-                console.log(123123213);
-                console.log(ids);
                 for (let item of pool) {
                     for (key in _payload.body) {
                         if (ids.includes(item.id)) {

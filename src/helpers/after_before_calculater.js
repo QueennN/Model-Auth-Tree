@@ -4,8 +4,7 @@ module.exports = function (ctx) {
         
          return ctx.local.get("model", payload.model).lifecycle[payload.method][mapName]; 
    
-      }
-      console.log(payload.model);   
+      } 
       return []
    };
 };

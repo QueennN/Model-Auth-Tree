@@ -8,6 +8,7 @@ module.exports = async function (ctx) {
    ctx.store.set("effect", [])
    ctx.store.set("modify", [])
    ctx.store.set("filter", [])
+   ctx.store.set("setting", [])
    ctx.store.set("secret", "secret");
    ctx.store.set("afters", ["log", "metric"]);
    ctx.store.set("befores", ["default_payload", "metric"]); // TODO set user
@@ -67,6 +68,7 @@ module.exports = async function (ctx) {
    await ctx.modify(require("./modify/set_mixin"));
    await ctx.modify(require("./modify/database_modify"));
    await ctx.modify(require("./modify/fix_schema"));
+   await ctx.modify(require("./modify/set_store_pool"));
 
    // MIXIN
    await ctx.mixin(require("./mixin/default_mixin"))
@@ -115,7 +117,6 @@ module.exports = async function (ctx) {
    await ctx.model(require('./model/effect.js'))
    await ctx.model(require('./model/filter.js'))
    await ctx.model(require('./model/setting.js'))
-   await ctx.model(require('./model/lifecycle.js'))
    await ctx.model(require('./model/mixin.js'))
    await ctx.model(require('./model/database.js'))
 

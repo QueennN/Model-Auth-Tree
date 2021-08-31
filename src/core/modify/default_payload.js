@@ -5,7 +5,10 @@ module.exports = {
          options: {},
          body: {},
          query: {},
-         projection: {},
+         projection: {
+            offset:0,
+            limit:Infinity
+         },
          metrics: {
             lifecycle_response_times: [],
             response_time: 0,

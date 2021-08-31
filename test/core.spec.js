@@ -153,6 +153,74 @@ describe('FOOKIE JS ', async function () {
   });
 
 
+  it('Delete created model', async function () {
+    let res = await fookie.run({
+      system: true,
+      model: "model",
+      method: "delete",
+      query: {
+        name: "test_model2"
+      }
+    })
+    assert.equal(res.status, true)
+
+  });
+
+
+  it('Attributes', async function () {
+    let res = await fookie.run({
+      system: true,
+      model: "model",
+      method: "get",
+      query: {
+        name: "model"
+      },
+      attributes: ["name", "display"]
+    })
+
+
+    assert.deepEqual(lodash.omit(res.data, ["name", "display"]), {})
+    assert.equal(res.status, true)
+
+  });
+
+
+  it('get limit', async function () {
+    let res = await fookie.run({
+      system: true,
+      model: "model",
+      method: "getAll",
+      projection: {
+        limit: 3
+      }
+    })
+    assert.equal(res.data.length, 3)
+    res = await fookie.run({
+      system: true,
+      model: "model",
+      method: "getAll",
+      projection: {
+        limit: 2
+      }
+    })
+    assert.equal(res.data.length, 2)
+  });
+
+  it('get offset', async function () {
+    let res = await fookie.run({
+      system: true,
+      model: "model",
+      method: "get",
+      query: {
+        name: "model"
+      },
+      attributes: ["name", "display"]
+    })
+    assert.deepEqual(lodash.omit(res.data, ["name", "display"]), {})
+ 
+  });
+
+
   it('Lifecycle models', async function () {
     assert.equal(fookie.local.has("model", "rule"), true)
     assert.equal(fookie.local.has("model", "role"), true)

@@ -45,12 +45,13 @@ module.exports = function (ctx) {
             });
 
             model.methods.set("getAll", async function (_payload, _ctx) {
-                return _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query).map(i => _ctx.lodash.pick(i, _payload.attributes))
+                let res = _ctx.lodash.filter(_ctx.store.get(_payload.model), _payload.query).map(i => _ctx.lodash.pick(i, _payload.attributes))
+                console.log(_payload.projection.offset, _payload.projection.offset + _payload.projection.limit);
+               res = _ctx.lodash.slice(res, _payload.projection.offset, _payload.projection.offset + _payload.projection.limit)
+                return res
             });
 
             model.methods.set("create", async function (_payload, _ctx) {
-                if (!_ctx.store.has(_payload.model))
-                    console.log(_ctx.store.get(_payload.model));
                 _ctx.store.get(_payload.model).push(_payload.body)
                 return _payload.body
 

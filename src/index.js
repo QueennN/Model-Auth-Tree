@@ -88,8 +88,6 @@ class Fookie {
          await modify(payload, this);
          if (await rule(payload, this)) {
             let res = await this.local.get("model", payload.model).methods.get(payload.method)(payload, this)
-            if (payload.method == "create" && payload.model == "setting")
-               console.log(payload);
             payload.response.data = res
             if (payload.response.status == true) {
                await filter(payload, this);
